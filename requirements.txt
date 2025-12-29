@@ -3,3 +3,4 @@ gunicorn
 firebase-admin
 requests
 python-dotenv
+groq
