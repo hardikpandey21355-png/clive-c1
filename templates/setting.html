@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings</title>
+
+<style>
+    body {
+        margin: 0;
+        background: #0d0d0d;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
+
+    /* Overlay */
+    .overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Main Settings Box */
+    .settings-popup {
+        width: 900px;
+        height: 550px;
+        background: #1a1a1a;
+        border-radius: 18px;
+        display: flex;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Left Sidebar */
+    .settings-sidebar {
+        width: 260px;
+        background: #111;
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        border-right: 1px solid #333;
+    }
+
+    .sidebar-item {
+        padding: 14px 25px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #e0e0e0;
+    }
+
+    .sidebar-item:hover {
+        background: #222;
+    }
+
+   
+    
+
+    /* Right content panel */
+    .settings-content {
+        flex: 1;
+        padding: 30px;
+        overflow-y: auto;
+    }
+
+    .section-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .setting-row {
+        padding: 18px 0;
+        border-bottom: 1px solid #333;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .setting-label {
+        font-size: 16px;
+    }
+
+    .setting-value {
+        font-size: 15px;
+        color: #bbb;
+        cursor: pointer;
+    }
+
+    /* Plan Box */
+    .plan-box {
+        margin-top: 20px;
+        background: #111;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #333;
+        width: 350px;
+    }
+
+    .plan-title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+
+    .plan-features li {
+        margin: 6px 0;
+        color: #ccc;
+        font-size: 15px;
+    }
+
+    .delete-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #f7f7f7;
+    border-radius: 10px;     /* round corners */
+}
+
+.delete-text {
+    color: #d9534f;          /* red text */
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.delete-btn {
+    padding: 10px 18px;
+    background: #d9534f;     /* red button */
+    color: white;
+    border: none;
+    border-radius: 50px;      /* rounded corner */
+    cursor: pointer;
+    outline: none;
+}
+
+.delete-btn:hover {
+    background: #c9302c;
+}
+
+.clive-info {
+    margin-top: 25px;
+    text-align: left;
+    padding-left: 5px;
+}
+
+.clive-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.clive-info p {
+    font-size: 13px;
+    color: #cfcfcf;
+    line-height: 1.5;
+}
+
+/* Scrollbar for the entire page (dark theme) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0d0d;   /* Same as your page background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;   /* Same as your details container */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-item .icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+
+/* Sidebar item base */
+.sidebar-item {
+    padding: 14px 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #e0e0e0;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Hover (normal, subtle) */
+.sidebar-item:hover {
+    background: #1f1f1f;
+}
+
+/* Active (clicked item) */
+.sidebar-item.active {
+    background: #262626;
+    color: #ffffff;
+}
+
+/* Icon follows text */
+.sidebar-item .icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* ✅ GO BACK BUTTON */
+.back-button {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 32px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.back-button:hover {
+    background: #1d4ed8;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.6);
+    transform: translateX(-50%) translateY(-2px);
+}
+
+.back-button:active {
+    transform: translateX(-50%) translateY(0);
+}
+
+
+/* DELETE MODAL */
+.delete-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.delete-modal.hidden {
+  display: none;
+}
+
+.delete-modal-box {
+  width: 420px;
+  background: #111;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+
+.delete-modal-box h2 {
+  margin-top: 0;
+  font-size: 22px;
+}
+
+.warning-text {
+  color: #f87171;
+  margin: 10px 0;
+}
+
+.warning-list {
+  padding-left: 16px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.note-text {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #aaa;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  background: #2a2a2a;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background: #b91c1c;
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <div class="settings-popup">
+        
+        <!-- Sidebar -->
+        <div class="settings-sidebar">
+
+    <!-- GENERAL -->
+    <div class="sidebar-item active" id="btn-general">
+        <svg class="icon" viewBox="0 0 24 24">
+            <path d="M12 8a4 4 0 1 0 0 8a4 4 0 0 0 0-8z"/>
+            <path d="M2 12h2m16 0h2M12 2v2m0 16v2
+                     M4.9 4.9l1.4 1.4M16.3 16.3l1.4 1.4
+                     M4.9 19.1l1.4-1.4M16.3 7.7l1.4-1.4"
+                  fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        General
+    </div>
+
+    <!-- ACCOUNT -->
+    <div class="sidebar-item" id="btn-account">
+        <svg class="icon" viewBox="0 0 24 24">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+        </svg>
+        Account
+    </div>
+
+</div>
+
+
+        <!-- Right Panel -->
+        <div class="settings-content" id="content-area">
+
+            <!-- DEFAULT = GENERAL TAB -->
+            <div id="general-tab">
+                <div class="section-title">General</div>
+
+                <div class="setting-row">
+                    <div class="setting-label">Appearance</div>
+                    <div class="setting-value">System</div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-label">Accent color</div>
+                    <div class="setting-value">Default</div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-label">Language</div>
+                    <div class="setting-value">Auto-detect</div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-label">Spoken language</div>
+                    <div class="setting-value">Auto-detect</div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-label">Location</div>
+                    <div class="setting-value">Auto-detect</div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-label">Privacy</div>
+                    <div class="setting-value">On Clive Firebox Server</div>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-label">Thinking & Response</div>
+                    <div class="setting-value">10+ Search Engines</div>
+                </div>
+            </div>
+
+            <!-- ACCOUNT TAB -->
+            <div id="account-tab" style="display:none;">
+                <div class="section-title">Account</div>
+
+                <div class="plan-box">
+                    <h2 class="plan-title">Free</h2>
+                    <ul class="plan-features">
+                        <li>Get simple explanations</li>
+                        <li>Have short chats for common questions</li>
+                        <li>Save limited memory and context</li>
+                        <li>Normal chat behaviour</li>
+                        <li>Simple answers for study-related questions</li>
+                    </ul>
+                </div>
+                <div class="delete-section">
+    <span class="delete-text">Delete Account</span>
+    <button class="delete-btn" id="delete-account-btn">Delete</button>
+
+</div>
+
+<div class="clive-info">
+    <h3>About Clive_V1</h3>
+    <p>
+        Clive is an advanced AI assistant designed to think critically, act logically, 
+        and communicate with precision. It combines deep technical knowledge with 
+        practical problem-solving ability, making it ideal for students, developers, 
+        and professionals.
+        <br><br>
+        Clive challenges assumptions, provides counter-arguments, and focuses on truth 
+        rather than agreement. It can write code, debug, analyze complex topics, guide 
+        projects, and assist with research — all while adapting to the user’s style 
+        and goals.
+        <br><br>
+        Clive is reliable, fast, and built for real-world productivity.
+    </p>
+</div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- 🔴 DELETE CONFIRMATION MODAL -->
+<div id="delete-modal" class="delete-modal hidden">
+  <div class="delete-modal-box">
+    <h2>Delete Account</h2>
+
+    <p class="warning-text">
+      This action is <strong>permanent</strong>.
+    </p>
+
+    <ul class="warning-list">
+      <li>• All your chats will be deleted forever</li>
+      <li>• Your account will be removed from our servers</li>
+      <li>• Logging in again will create a fresh empty account</li>
+    </ul>
+
+    <p class="note-text">
+      If deletion requires re-login, sign in again and click delete once more.
+    </p>
+
+    <div class="modal-actions">
+      <button class="cancel-btn" id="cancel-delete">Cancel</button>
+      <button class="confirm-btn" id="confirm-delete">Go ahead</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ✅ GO BACK BUTTON -->
+<button class="back-button" onclick="window.location.href='/'">
+    Go Back
+</button>
+
+
+
+
+<script>
+    const btnGeneral = document.getElementById("btn-general");
+    const btnAccount = document.getElementById("btn-account");
+    const generalTab = document.getElementById("general-tab");
+    const accountTab = document.getElementById("account-tab");
+
+    btnGeneral.onclick = () => {
+        generalTab.style.display = "block";
+        accountTab.style.display = "none";
+
+        btnGeneral.classList.add("active");
+        btnAccount.classList.remove("active");
+    };
+
+    btnAccount.onclick = () => {
+        generalTab.style.display = "none";
+        accountTab.style.display = "block";
+
+        btnAccount.classList.add("active");
+        btnGeneral.classList.remove("active");
+    };
+</script>
+
+
+<script>
+document.getElementById("close-settings").addEventListener("click", () => {
+    window.location.href = "/";   // Flask home page route
+});
+</script>
+
+<script type="module">
+import { auth, db } from "/static/firebase.js";
+import { deleteUser } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  collection,
+  getDocs,
+  deleteDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const deleteBtn = document.getElementById("delete-account-btn");
+const deleteModal = document.getElementById("delete-modal");
+const cancelBtn = document.getElementById("cancel-delete");
+const confirmBtn = document.getElementById("confirm-delete");
+
+/* OPEN MODAL */
+deleteBtn.addEventListener("click", () => {
+  deleteModal.classList.remove("hidden");
+});
+
+/* CANCEL */
+cancelBtn.addEventListener("click", () => {
+  deleteModal.classList.add("hidden");
+});
+
+/* CONFIRM DELETE */
+confirmBtn.addEventListener("click", async () => {
+  deleteModal.classList.add("hidden");
+
+  const user = auth.currentUser;
+  if (!user) {
+    alert("No user logged in");
+    return;
+  }
+
+  try {
+    /* 🧹 DELETE ALL USER CHATS */
+    const chatsRef = collection(db, "users", user.uid, "chats");
+    const snapshot = await getDocs(chatsRef);
+
+    for (const d of snapshot.docs) {
+      await deleteDoc(doc(db, "users", user.uid, "chats", d.id));
+    }
+
+    /* 🧹 DELETE USER DOCUMENT */
+    await deleteDoc(doc(db, "users", user.uid));
+
+    /* ❌ DELETE AUTH ACCOUNT */
+    await deleteUser(user);
+
+    alert("✅ Account deleted permanently");
+    window.location.href = "/";
+
+  } catch (error) {
+    console.error("Delete error:", error);
+
+    if (error.code === "auth/requires-recent-login") {
+      alert("Please log in again, then delete your account.");
+      window.location.href = "/login";
+    } else {
+      alert("Something went wrong.");
+    }
+  }
+});
+</script>
+
+
+
+</body>
+</html>

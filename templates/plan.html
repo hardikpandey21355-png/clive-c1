@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Plans</title>
+
+<style>
+    body {
+        background-color: #0d0d0d;     /* same dark background */
+        color: white;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Title */
+    .page-title {
+        margin-top: 40px;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* Container that holds the two plan boxes */
+    .plans-container {
+        display: flex;
+        gap: 60px;
+        margin-top: 40px;
+    }
+
+    /* Black box (Free plan style) */
+    .plan-box {
+        width: 320px;
+        height: 650px;   /* Same long height like screenshot */
+        background-color: #1a1a1a;
+        border-radius: 16px;
+        padding: 25px;
+        box-sizing: border-box;
+    }
+
+    /* Blue box (Go/Plus highlighted plan) */
+    .plan-box.blue {
+        background: linear-gradient(to bottom right, #2d2e83, #1f204b);
+        border: 1px solid rgba(255,255,255,0.1);
+         position: relative;      /* ← ADD THIS */
+    overflow: hidden;
+    }
+
+    .plan-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+
+.price-box {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.rupee {
+    font-size: 22px;
+    margin-right: 4px;
+    opacity: 0.7;        /* light & dark like you want */
+}
+
+.amount {
+    font-size: 52px;      /* big number */
+    font-weight: bold;
+}
+
+.plan-features {
+    margin-top: 20px;
+    padding-left: 18px;
+    line-height: 1.6;
+    font-size: 16px;
+    opacity: 0.85;
+}
+
+.plan-features li {
+    margin-bottom: 10px;
+}
+
+.upgrade-btn {
+    width: 75%;                 /* fits inside the box */
+    text-align: center;
+    padding: 10px 0;
+    background: #6ca8ff;
+    color: #000;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 20px;               /* stays near bottom inside box */
+    left: 50%;
+    transform: translateX(-50%); /* perfect center */
+    cursor: pointer;
+}
+
+
+.plan-box.purple {
+    background: linear-gradient(to bottom right, #6a00ff, #3b007a);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 25px rgba(140, 0, 255, 0.6);
+
+    position: relative;   /* IMPORTANT */
+    overflow: hidden;     /* IMPORTANT */
+
+    width: 320px;
+    height: 650px;
+    border-radius: 16px;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.plan-box.purple .upgrade-btn {
+    background: #b86bff;
+    color: white;
+    box-shadow: 0 0 12px rgba(184, 107, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+
+
+.slide-in {
+    transform: translateX(-30px);
+    opacity: 0;
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+
+
+.notice-banner {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background: #b00020;
+    color: white;
+    border-radius: 18px;
+    font-size: 15px;
+    font-weight: 300;
+
+    display: inline-block;   /* 🔥 THIS is the key */
+    text-align: center;
+
+    box-shadow: 0 4px 12px rgba(176, 0, 32, 0.4);
+}
+.notice-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;   /* PERFECT horizontal centering */
+}
+
+
+.notice-banner {
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+</style>
+</head>
+<!-- animation for plan page when it loads -->
+<div class="slide-in">
+     
+
+
+
+<body>
+    
+
+
+
+    <div class="page-title">Try Plus Plan</div>
+
+    <div class="notice-wrapper">
+    <div class="notice-banner">
+        Plus & Pro Plans Are Not Available Yet
+    </div>
+</div>
+
+    
+
+    <div class="plans-container">
+
+    <!-- Black plan box -->
+    <div class="plan-box">
+        <h2 class="plan-title">Free</h2>
+        <div class="price-box">
+        <span class="rupee">₹</span>
+        <span class="amount">0</span>
+    </div>
+     <ul class="plan-features">
+        <li>Get simple explanations</li>
+        <li>Have short chats for common questions</li>
+        <li>Save limited memory and context</li>
+        <li>Normal chat behaviour</li>
+        <li>Simple answers for study-related questions</li>
+    </ul>
+    </div>
+
+    <!-- Blue plan box -->
+    <div class="plan-box blue">
+        <h2 class="plan-title">Plus</h2>
+        <div class="price-box">
+        <span class="rupee">₹</span>
+        <span class="amount">29</span>
+        
+    </div>
+    <ul class="plan-features">
+    <li>Go deep</li>
+    <li>Chat longer</li>
+    <li>Store more context</li>
+    <li>Get help</li>
+    <li>Unlock image upload</li>
+    <li>Smarter answers</li>
+    <li>More accuracy</li>
+    <li>500MB Storage</li>
+    <li>Valid upto 7-days</li>
+  </ul>
+  <div class="upgrade-btn">Upgrade To Plus</div>
+    </div>
+
+    <!-- purple plan box -->
+    <div class="plan-box purple">
+        <h2 class="plan-title">Pro</h2>
+        <div class="price-box">
+        <span class="rupee">₹</span>
+        <span class="amount">99</span>
+        
+    </div>
+    <ul class="plan-features">
+    <li>Go deep on harder questions</li>
+    <li>Chat longer and upload more content</li>
+    <li>Store more context for smarter replies</li>
+    <li>Get help with planning and tasks</li>
+    <li>Unlock image upload and human chat behaviour</li>
+    <li>Smarter answers for study-related questions</li>
+    <li>Beast accuracy</li>
+    <li>2GB Storage</li>
+    <li>Valid upto 30-days</li>
+  </ul>
+  <div class="upgrade-btn">Upgrade To Pro</div>
+    </div>
+    
+
+</div>
+
+</div>  
+<!-- this upper div is for animation when plan.html load  -->
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personalization UI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===================== */
+/* BASIC THEME */
+/* ===================== */
+/* Initial state: off-screen to the left */
+.container {
+    max-width: 720px;
+    margin: 40px auto;
+    padding: 0 20px;
+    padding-bottom: 100px; /* Space for save button */
+    
+    /* Animation */
+    transform: translateX(-100%);  /* start off-screen */
+    opacity: 0;
+    animation: slideIn 0.8s forwards ease-out; /* slide in */
+}
+
+/* Keyframes for sliding */
+@keyframes slideIn {
+    to {
+        transform: translateX(0); /* final position */
+        opacity: 1;               /* fade in */
+    }
+}
+
+body {
+    margin: 0;
+    background: #111;
+    font-family: Inter, sans-serif;
+    color: #e6e6e6;
+}
+
+/* Close (X) button */
+.close-btn {
+     position: relative;
+    left: 700px;   /* adjust left/right */
+    top: 37px;
+    right: 0;
+    font-size: 26px;
+    cursor: pointer;
+    background: #1d1d1d;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    transition: .2s;
+}
+.close-btn:hover {
+    background: #2a2a2a;
+}
+
+/* Section titles */
+.section-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+/* Divider line */
+.divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 20px 0;
+}
+
+/* Sub-title inside section */
+.label-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 28px;
+}
+
+/* Gray description below title */
+.description {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 14px;
+}
+
+/* Input fields */
+.input-box {
+    width: 100%;
+    padding: 14px 16px;
+    background: #1d1d1d;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    font-size: 15px;
+    color: #e6e6e6;
+    outline: none;
+}
+
+/* Dropdown row */
+.dropdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 4px;
+    cursor: pointer;
+}
+
+.dropdown-text {
+    font-size: 17px;
+}
+
+.dropdown-arrow {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+/* Input label */
+.input-label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* Make button container relative */
+.input-box.dropdown-row.small {
+    position: relative;      /* IMPORTANT: popup positions relative to button */
+    width: 80px;
+    padding: 8px 12px;
+    border-radius: 20px;     /* button rounded */
+    font-size: 14px;
+}
+
+/* Dropdown options container */
+.dropdown-options {
+    position: absolute;
+    top: 100%;               /* directly below button */
+    left: 0;                 /* align left edge */
+    background: #000000;     
+    border-radius: 12px;      /* rounded corners */
+    margin-top: 5px;          /* space between button and popup */
+    width: 100%;              /* match button width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+    z-index: 10;
+    overflow: hidden;         /* ensures child options respect rounded corners */
+    border: 1px solid rgba(0, 0, 0, 0);
+}
+
+/* Each option */
+.dropdown-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    background: #000000;      /* same as popup */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Remove bottom border for last option */
+.dropdown-option:last-child {
+    border-bottom: none;
+}
+
+/* Hover effect */
+.dropdown-option:hover {
+    background: #2a2a2a;
+}
+
+/* Hide element */
+.hidden {
+    display: none;
+}
+
+.input-box.dropdown-row.small {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 15px;
+    background: #443e84;
+    border-radius: 8px;
+    cursor: pointer;
+    width: auto;            /* <-- important */
+    max-width: none;        /* <-- ensure no limit */
+    transition: 0.3s ease;
+}
+
+/* Hover Effect */
+.input-box.dropdown-row.small:hover {
+    background: #0d4aba;  /* light blue */
+    
+}
+
+/* Text color change on hover */
+.input-box.dropdown-row.small:hover .dropdown-text {
+    color: #000000;
+}
+.input-box.dropdown-row.small:hover .dropdown-arrow {
+    color: #0f1f42;   /* same color as text */
+    transition: 0.3s ease;
+}
+
+.input-box.dropdown-row.small .dropdown-text {
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ✅ SAVE CHANGES BUTTON */
+.save-btn {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px); /* Start hidden below */
+    background: #2563eb;
+    color: white;
+    padding: 14px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    transition: all 0.3s ease;
+    opacity: 0;
+    z-index: 1000;
+}
+
+/* Show button with slide-up animation */
+.save-btn.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* Hover effect */
+.save-btn:hover {
+    background: #1d4ed8;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.6);
+    transform: translateX(-50%) translateY(-2px);
+}
+
+/* Active/Click effect */
+.save-btn:active {
+    transform: translateX(-50%) translateY(0);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+     <!-- X close button -->
+    <div class="close-btn" onclick="history.back()">×</div>
+
+    <!-- PERSONALIZATION SECTION -->
+    <div class="section-title">Personalization</div>
+    <div class="divider"></div>
+
+    <div class="label-title">Base style and tone</div>
+    <div class="description">Set the style and tone of how Clive responds to you. This doesn't impact Clive's capabilities.</div>
+    
+    <!-- Dropdown box -->
+    <div class="input-box dropdown-row small" id="styleDropdown">
+        <span class="dropdown-text" id="selectedOption">Default</span>
+        <span class="dropdown-arrow">୨ৎ</span>
+
+        <!-- Hidden options popup -->
+        <div class="dropdown-options hidden" id="dropdownOptions">
+            <div class="dropdown-option">Default</div>
+            <div class="dropdown-option">🍃 Friendly</div>
+            <div class="dropdown-option">♨️ Proffesi.</div>
+            <div class="dropdown-option">💥 Sigma</div>
+        </div>
+    </div>
+
+    <!-- Custom Instructions -->
+    <div class="label-title" style="margin-top: 28px;">Custom instructions</div>
+    <input class="input-box watch-input" id="customInstructions" placeholder="Additional behavior, style, and tone preferences">
+
+    <!-- ABOUT YOU -->
+    <div class="section-title" style="margin-top: 40px;">About you</div>
+    <div class="divider"></div>
+
+    <div class="input-label">Nickname</div>
+    <input class="input-box watch-input" id="nickname" placeholder="What should Clive call you?">
+
+    <div class="input-label" style="margin-top: 22px;">Occupation</div>
+    <input class="input-box watch-input" id="occupation" placeholder="Like>>Engineering student at GLA UNIVERSITY">
+
+    <div class="input-label" style="margin-top: 22px;">More about you</div>
+    <input class="input-box watch-input" id="moreAbout" placeholder="Interests, values, or preferences to keep in mind">
+
+</div>
+
+<!-- ✅ SAVE CHANGES BUTTON -->
+<button class="save-btn hidden" id="saveBtn">Save Changes</button>
+
+<script>
+// ✅ LOAD SAVED DATA ON PAGE LOAD
+window.addEventListener('DOMContentLoaded', () => {
+    // Load from localStorage
+    const savedData = localStorage.getItem('clive_personalization');
+    
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        
+        // Set dropdown
+        if (data.style) {
+            document.getElementById('selectedOption').textContent = data.style;
+        }
+        
+        // Set input fields
+        if (data.customInstructions) {
+            document.getElementById('customInstructions').value = data.customInstructions;
+        }
+        if (data.nickname) {
+            document.getElementById('nickname').value = data.nickname;
+        }
+        if (data.occupation) {
+            document.getElementById('occupation').value = data.occupation;
+        }
+        if (data.moreAbout) {
+            document.getElementById('moreAbout').value = data.moreAbout;
+        }
+        
+        console.log('✅ Loaded saved personalization data');
+    }
+});
+
+// Dropdown functionality
+const dropdown = document.getElementById('styleDropdown');
+const options = document.getElementById('dropdownOptions');
+const selected = document.getElementById('selectedOption');
+
+dropdown.addEventListener('click', (e) => {
+    options.classList.toggle('hidden');
+});
+
+// Set selected option and close dropdown
+document.querySelectorAll('.dropdown-option').forEach(option => {
+    option.addEventListener('click', (e) => {
+        selected.textContent = e.target.textContent;
+        options.classList.add('hidden');
+        checkForChanges(); // ✅ Check if save button should appear
+    });
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if (!dropdown.contains(e.target)) {
+        options.classList.add('hidden');
+    }
+});
+
+// ✅ SAVE BUTTON LOGIC
+const saveBtn = document.getElementById('saveBtn');
+const watchInputs = document.querySelectorAll('.watch-input');
+
+// ✅ Store initial values (load from localStorage if exists)
+const savedData = localStorage.getItem('clive_personalization');
+const initialValues = savedData ? JSON.parse(savedData) : {
+    style: 'Default',
+    customInstructions: '',
+    nickname: '',
+    occupation: '',
+    moreAbout: ''
+};
+
+// Check if any field has changed
+function checkForChanges() {
+    const currentStyle = selected.textContent;
+    const currentCustom = document.getElementById('customInstructions').value.trim();
+    const currentNickname = document.getElementById('nickname').value.trim();
+    const currentOccupation = document.getElementById('occupation').value.trim();
+    const currentMore = document.getElementById('moreAbout').value.trim();
+
+    // Check if anything is filled or changed
+    const hasChanges = 
+        currentStyle !== initialValues.style ||
+        currentCustom !== initialValues.customInstructions ||
+        currentNickname !== initialValues.nickname ||
+        currentOccupation !== initialValues.occupation ||
+        currentMore !== initialValues.moreAbout;
+
+    // Show or hide button
+    if (hasChanges) {
+        saveBtn.classList.remove('hidden');
+        setTimeout(() => saveBtn.classList.add('show'), 10);
+    } else {
+        saveBtn.classList.remove('show');
+        setTimeout(() => saveBtn.classList.add('hidden'), 300);
+    }
+}
+
+// Watch all input fields
+watchInputs.forEach(input => {
+    input.addEventListener('input', checkForChanges);
+});
+
+// Save button click handler
+saveBtn.addEventListener('click', () => {
+    const data = {
+        style: selected.textContent,
+        customInstructions: document.getElementById('customInstructions').value.trim(),
+        nickname: document.getElementById('nickname').value.trim(),
+        occupation: document.getElementById('occupation').value.trim(),
+        moreAbout: document.getElementById('moreAbout').value.trim()
+    };
+
+    console.log('✅ Saving data:', data);
+
+    // ✅ Save to localStorage (permanent storage)
+    localStorage.setItem('clive_personalization', JSON.stringify(data));
+
+    // ✅ Optional: Send to backend (uncomment when ready)
+    // fetch('/save-personalization', {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(data)
+    // });
+
+    // ✅ Show success message briefly
+    saveBtn.textContent = '✓ Saved!';
+    saveBtn.style.background = '#10b981'; // Green color
+
+    // ✅ Redirect to home page after 800ms
+    setTimeout(() => {
+        window.location.href = '/'; // or 'index.html' if not using Flask routes
+    }, 800);
+});
+
+console.log('✅ Personalization page loaded');
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1939 @@
+/* main page */
+body {
+    margin: 0;
+    background: #181818;
+    height: 100vh;       /* fills full screen */
+    width: 100vw;        /* fills full width */
+}
+
+
+
+
+
+
+
+
+
+
+/* Sidebar touching full height (top to bottom) */
+.sidebar {
+    width: 250px;           /* you can change this */
+    background: #1b1b1b;    /* slightly darker than body */
+    height: 100vh;          /* full vertical height */
+}
+
+
+
+
+
+
+
+
+
+
+/* --- Input Bar Container (ChatGPT Style) --- */
+.input-container {
+    position: fixed;
+    bottom: 30px;
+    left: 58%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;
+    background-color: #2d2d2d;
+    padding: 18px 14px;
+    border-radius: 20px;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    min-height: 70px;
+    border: 1px solid rgba(255, 255, 255, 0.246);
+}
+/* this is the part of input button which contains send icon and plus icon*/
+.icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #cfcfcf;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+    flex-shrink: 0;
+}
+.icon-button:hover {
+    color: rgb(255, 255, 255);
+}
+/* --- Text Input --- */
+#user-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    resize: none;
+    overflow-y: auto; /* Changed from hidden to auto - shows scrollbar when needed */
+    min-height: 24px;
+    max-height: 200px;
+    line-height: 24px;
+    font-family: Arial, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    align-self: stretch;
+    padding-left: 8px;
+}
+/* Neon border animation - only when input bar is centered */
+/* .input-container.start-center {
+    border: 2px solid transparent;
+    background: linear-gradient(#3b3b42, #3b3b42) padding-box,
+                linear-gradient(90deg, 
+                    red, 
+                    orange, 
+                    yellow, 
+                    green, 
+                    blue, 
+                    purple,
+                    red
+                ) border-box;
+    background-size: 200% 100%;
+    animation: rainbow-border 3s linear infinite;
+}
+/* Rainbow moving border animation */
+/* @keyframes rainbow-border {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 200% 0%;
+    }
+} */ */
+/* Remove neon effect when input bar moves down */
+.input-container {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+/* Custom scrollbar styling (optional - makes it look better) */
+#user-input::-webkit-scrollbar {
+    width: 6px;
+}
+#user-input::-webkit-scrollbar-track {
+    background: transparent;
+}
+#user-input::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 10px;
+}
+#user-input::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+#user-input::placeholder {
+    color: #b0b0b0;
+    font-family: Arial, sans-serif !important; /* Force font change */
+    font-weight: 400 !important; /* Force normal weight */
+    font-style: normal !important;
+}
+/* --- Right Side Icons --- */
+.right-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+/* --- Send Button (Up Arrow in White Circle) --- */
+.send-icon {
+    background-color: white;
+    color: black;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+.send-icon:hover {
+    background-color: #000000;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+/* top-right corner three dots */
+.top-dots {
+    position: absolute;
+    top: 15px;
+    right: 20px; 
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.top-dots span {
+    width: 4px;
+    height: 4px;
+    background: #ffffff;
+    border-radius: 50%;
+}
+.menu-box {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0); /* invisible initially */
+    transition: 0.2s ease-in-out;
+}
+/* When cursor touches the circle or the dots */
+.menu-box:hover {
+    background: #1a1a1a;
+    transform: scale(1.05); /* slight zoom for effect */
+}
+.dots {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5px;
+}
+.dots span {
+    width: 3.5px;
+    height: 3.5px;
+    background: #ffffff;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+/* THE TEXT WHICH REPRESENTS CURRENT MODEL RIGH NOW CLIVE-V1 */
+.title-text {
+    position: fixed;
+    top: 10px;
+    left: 263px;             
+    font-size: 22px;
+    font-weight: 700;        /* bold */
+    color: rgb(255, 255, 255);
+    font-family: "Inter", "Segoe UI", sans-serif;   /* clean, modern font */
+    letter-spacing: 0.5px;
+    z-index: 9999;
+}
+
+
+
+
+
+
+
+
+
+
+/* Position the New Chat button over the sidebar */
+.new-chat {
+    position: fixed;
+    top: 80px;            /* distance from top of page */
+    left: 8.5px;           /* place inside sidebar visually */
+    width: 200px;         /* almost full sidebar width */
+    padding: 10px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #1b1b1b;  /* same color as sidebar */
+    color: #ffffff;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: 0.2s ease;
+    z-index: 1000;
+}
+.new-chat i {
+    font-size: 16px;
+    color: #fefefe;
+}
+.new-chat:hover {
+    background: #2a2a2a;
+}
+
+
+
+
+
+
+
+
+
+
+/* Your Chats title */
+.sidebar-section-title {
+    position: fixed;
+    top: 180px;           /* 70px (button) + height + spacing */
+    left: 20px;           /* same inner alignment visually */
+    font-size: 14px;
+    font-weight: 300;
+    color: #bfbfbf;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+
+
+
+
+
+
+
+
+
+
+/* Line under "Your Chats" */
+.sidebar-section-line {
+    position: fixed;
+    top: 205px;           /* slightly under the title */
+    left: 15px;
+    width: 220px;         /* visually fits inside 250px sidebar */
+    height: 1px;
+    background: #3a3a3a;
+    border-radius: 20px;
+    z-index: 1000;
+}
+
+
+
+
+
+
+
+
+
+
+/* Your Profile Button */
+.profile-btn {
+    position: fixed;
+    left: 8.5px;              /* same alignment as New Chat */
+    bottom: 8px;             /* 12px below bottom line */
+    width: 209px;             /* same as New Chat */
+    padding: 7px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #1b1b1b;      /* same sidebar color */
+    color: #ffffff;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: 0.2s ease;
+    z-index: 1000;
+    
+}
+/* Circle Icon */
+.profile-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #0c0c0c;     /* dark circle */
+}
+.profile-btn:hover {
+    background: #2a2a2a;   /* same hover color as New Chat */
+}
+/* Initial centered state */
+.input-container.start-center {
+    bottom: 50%;
+    left: 58%;
+    transform: translate(-50%, 50%);
+    transition: all 0.5s ease;
+}
+/* Smooth animation for normal state */
+.input-container {
+    transition: all 0.5s ease;
+}
+
+
+
+
+
+
+
+
+
+
+/* terms and conditions */
+.footer-warning {
+    position: fixed;
+    bottom: 5px;            /* below input bar */
+    left: 58%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #b3b3b3;
+    font-family: Arial, sans-serif;
+}
+.cookie-link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.cookie-link:hover {
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+/* Library Button */
+.library-btn {
+    position: fixed;
+    top: 120px;            /* As you requested */
+    left: 8.5px;           /* Same alignment as New Chat */
+    width: 200px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #1b1b1b;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    transition: 0.2s ease;
+    z-index: 1000;
+}
+/* Icon beside Library */
+.library-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+.library-btn:hover {
+    background: #2a2a2a;    /* Same hover as New Chat */
+}
+
+
+
+
+
+
+
+
+
+
+/* Greeting text above centered input bar */
+.greet-text {
+    position: fixed;
+    left: 58%;
+    top: 37%;
+    transform: translateX(-50%);
+    color: #e2e2e2;
+    font-size: 26px;
+    font-weight: 600;
+    font-family: "Inter", sans-serif;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.4s ease, top 0.5s ease;
+    pointer-events: none;
+}
+/* Hide greeting when input bar goes down */
+.greet-text.hide {
+    opacity: 0;
+    top: 40%;
+}
+
+
+
+
+
+
+
+
+
+
+/* POPUP CONTAINER OF PROFILE BUTTON */
+.profile-popup {
+    position: fixed;
+    bottom: 60px;
+    left: 10px;
+    width: 200px;                  /* reduced width */
+    background: #1d1d1d;           /* darker & cleaner */
+    border-radius: 12px;
+    padding: 15px;
+    z-index: 9999;
+    border: 1px solid rgba(255, 255, 255, 0.285);
+
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+/* Force all text inside popup to stay white */
+.profile-popup,
+.profile-popup * {
+    color: rgb(255, 255, 255) !important;
+}
+/* AVATAR */
+.avatar-circle {
+    width: 32px;                    /* smaller avatar */
+    height: 32px;
+    background: rgb(24, 49, 157);
+    border-radius: 50%;
+    margin: 10px 0 10px 0;          /* stays left */
+}
+/* OPTIONS BUTTON */
+.profile-option {
+    width: calc(100% + 10px);
+    padding: 8px;
+    margin-top: 6px;
+    background: #1d1d1d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+
+    /* ADD THESE 👇 */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-option:hover {
+    background: #333333;
+}
+.profile-option .icon {
+    width: 16px;            /* equal width for all icons */
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* LINE SEPARATOR */
+.popup-separator {
+    width: 85%;
+    border: none;
+    height: 0.4px;
+    background: rgba(255, 255, 255, 0.12);
+    margin: 8px auto 10px auto;
+}
+/* ICONS */
+.profile-option i {
+    margin-right: 8px;
+    font-size: 15px;
+}
+.upgrade-icon {
+    font-size: 18px;               /* smaller upgrade star */
+    margin-right: 8px;
+}
+/* OVERLAY WITH NO BLUR */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: transparent;       /* no blur, no dim */
+    z-index: 9998;
+}
+.hidden {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+/* logo on sidebar for clive */
+.sidebar-sticker {
+    position: fixed;
+    top: 14px;         /* adjust vertical position */
+    left: 15px;        /* sits on the sidebar */
+    width: 35px;       /* size */
+    height: auto;
+    z-index: 9999;     /* above everything */
+    pointer-events: none;   /* so it doesn't block clicks */
+}
+
+
+
+
+
+
+
+
+
+
+/* three dots pop up which is at top right corner*/
+.dots-popup {
+    position: fixed;
+    top: 55px;     /* adjust if needed */
+    right: 25px;   /* aligns under the 3 dots */
+    background: #232222;
+    padding: 10px 0;
+    width: 128px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.285);
+    box-shadow: 0 0 12px rgb(0, 0, 0);
+    z-index: 9999;
+}
+.dots-popup.hidden {
+    display: none;
+}
+.popup-item {
+    width: 100%;
+    padding: 12px 17px;
+    background: #232222;
+    color: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 8px;        /* rounded shape */
+}
+.popup-item:hover {
+    background: #3b3b3b;
+}
+/* Delete option in red */
+.delete-item {
+    color: #ff4a4a;
+}
+
+
+
+
+
+
+
+
+
+
+/* line below the Clive-V1 and three dots */
+.top-chat-line {
+    width: calc(100% - 250px);  /* subtracting sidebar width */
+    height: 1px;
+    background-color: #444;     /* subtle line like ChatGPT */
+    position: absolute;
+    top: 50px;                  /* place it under Clive-V1 */
+    left: 250px;                /* same as sidebar width */
+}
+
+
+
+
+
+
+
+
+
+
+/* Shake animation of theme button*/
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+.shake {
+  animation: shake 0.5s;
+}
+
+
+
+
+
+
+
+
+
+
+/* very important that containes the whole chat sec properties */
+/* Hide chat container when empty */
+.chat-container:empty {
+    display: none;
+}
+/* Show chat container when it has messages */
+.chat-container:not(:empty) {
+    display: flex;
+}
+/* Chat Messages Container */
+.chat-container {
+    position: fixed;
+    top: 51px;                  /* just below the top line */             
+    left: 58%;
+    transform: translateX(-50%);
+    width: 60%;
+    max-width: 750px;           /* same as input bar */
+    height: calc(100vh - 51px - 178px);  /* viewport height minus top and bottom space */
+    overflow-y: scroll;
+    overflow-x: visible;           /* scrollable if messages overflow */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+     margin-right: -20px;  /* pushes scrollbar to edge */
+    padding-right: 40px;
+    /* Optional: for debugging, remove this later */
+    /* border: 2px solid red; */
+}
+/* Individual message styling (you'll need this when messages appear) */
+.message {
+    padding: 12px 16px;
+    border-radius: 12px;
+    max-width: 80%;
+    word-wrap: break-word;
+}
+/* User messages (right aligned) - keep the bubble */
+/* User messages (right aligned) - keep the bubble */
+.message.user {
+    background: #323232;
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-weight: normal;
+    font-size: 15px;
+    
+    /* ✅ ADD ANIMATION */
+    animation: slideUpUser 0.4s ease-out;
+    transform-origin: bottom right;
+}
+
+/* ✅ Slide up animation for user messages */
+@keyframes slideUpUser {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Start 20px below */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* End at normal position */
+    }
+}
+/* AI messages (left aligned) */
+.message.ai {
+    background: transparent;  /* CHANGE: remove bubble */
+    color: white;
+    align-self: flex-start;
+    padding: 0;  /* CHANGE: remove padding since no bubble */
+    font-weight: normal;  /* CHANGE: normal font weight */
+    font-family: 'Segoe UI', Arial, sans-serif;  /* different font */
+    font-size: 15px;
+}
+.chat-container::-webkit-scrollbar {
+    width: 8px;
+    position: absolute;
+    right: 0;
+}
+.chat-container::-webkit-scrollbar-track {
+    background: #181818;
+    position: absolute;
+    right: 0;
+}
+.chat-container::-webkit-scrollbar-thumb {
+    background: #181818;
+    border-radius: 10px;
+}
+.chat-container::-webkit-scrollbar-thumb:hover {
+    background: #181818;
+}
+
+
+
+
+
+
+
+
+
+
+/* this is the animation process of when clive is thinking */
+.thinking-bubble {
+    width: fit-content;
+    max-width: 60%;
+    padding: 10px 15px;
+    background: #2a2a2a;
+    color: #fff;
+    border-radius: 10px;
+    font-size: 14px;
+    font-style: italic;
+    position: relative;
+    overflow: visible !important;  /* IMPORTANT FIX */
+}
+.chat-container {
+    overflow-y: auto !important;  /* reduces clipping */
+    overflow-x: visible !important;
+}
+.thinking-word {
+    display: inline-block;
+    animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(3px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.fade-out {
+    animation: fadeOut 0.3s ease forwards;
+}
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-3px); }
+}
+
+
+
+
+
+
+
+
+
+
+/* Square stop icon when clive responses and it is inside the input bar */
+.send-icon.stop {
+    background-color: white;
+}
+.send-icon.stop i:before {
+    content: "\f04d";  /* Font Awesome square icon */
+}
+/* Disabled state */
+.send-icon:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.send-icon.stop {
+    background-color: white;
+}
+.send-icon.stop:hover {
+    background-color: white;
+    color: black;  /* ADD THIS - keeps square visible */
+}
+.send-icon.stop i:before {
+    content: "\f04d";  /* Font Awesome square icon */
+}
+/* Disabled state */
+.send-icon:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+
+
+
+
+
+
+
+
+/* report pop up which is inside the rigt corner three dots */
+.report-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+.report-box {
+    background: #1f1f1f;
+    color: white;
+    width: 380px;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.35);
+}
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.report-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+.close-report-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+}
+.report-subtitle {
+    margin: 15px 0;
+    font-size: 14px;
+    opacity: 0.85;
+}
+.report-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.report-options label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.report-options input[type="radio"] {
+    transform: scale(1.2);
+}
+.report-confirm-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: rgb(55, 55, 55);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    cursor: pointer;
+    opacity: 0.4;
+}
+.report-confirm-btn.enabled {
+    background: #3a82ff;
+    opacity: 1;
+    cursor: pointer;
+}
+.hidden {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+/* Cookie Popup Styles */
+.cookie-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.cookie-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+.cookie-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: #2a2a2a;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 24px;
+    padding: 40px;
+    z-index: 10000;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.192);
+    
+}
+.cookie-popup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+}
+.cookie-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.cookie-header h2 {
+    color: white;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 600;
+}
+.cookie-close-btn {
+    background: #3a3a3a;
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.cookie-close-btn:hover {
+    background: #4a4a4a;
+}
+.cookie-description {
+    color: #b0b0b0;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+.cookie-description a {
+    color: #6b9eff;
+    text-decoration: underline;
+    cursor: pointer;
+     font-style: normal;  /* Add this line */
+}
+.cookie-option {
+    background: #333;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.cookie-option-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.cookie-option-title {
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+}
+.cookie-option-desc {
+    color: #a0a0a0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 28px;
+    background: #555;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.toggle-switch.active {
+    background: #2196F3;
+}
+.toggle-switch.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.toggle-knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+.toggle-switch.active .toggle-knob {
+    transform: translateX(20px);
+}
+
+
+
+
+
+
+
+
+
+
+/* Chat History Styles */
+    .chat-history-container {
+        position: fixed;
+        top: 206px;
+        left: 9px;
+        width: 234px;
+        height: calc(100vh - 215px - 56px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 1000;
+    }
+    .chat-history-item {
+        padding: 12px 8px;
+        margin: 0px 0;
+        background: #1b1b1b;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #ffffff;
+        font-size: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        border: 1px solid transparent;
+        font-family: Arial, sans-serif;
+    }
+    .chat-history-item:hover {
+        background: rgba(255, 255, 255, 0.125);
+        
+    }
+    .chat-history-item.active {
+        background: rgba(255, 255, 255, 0.048);
+        
+    }
+    .chat-history-container::-webkit-scrollbar {
+        width: 6px;
+    }
+    .chat-history-container::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .chat-history-container::-webkit-scrollbar-thumb {
+        background: #1b1b1b;
+    }
+/* Typewriter animation for new chat titles */
+.chat-history-item.typing-title {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 1.5s steps(35) forwards;
+    border-right: none; /* remove the blinking cursor line */
+}
+@keyframes typing {
+    from { 
+        width: 0; 
+    }
+    to { 
+        width: 100%; 
+    }
+}
+/* No need for .typing-done changes anymore */
+.chat-history-item.typing-done {
+    border-right: none;
+}
+
+
+
+
+
+
+
+
+
+
+/* Chat history item with three dots */
+.chat-history-item {
+    position: relative;
+    padding-right: 25px; /* Make space for the dots */
+}
+/* Three dots container */
+.chat-item-dots {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none; /* Hidden by default */
+    flex-direction: row; /* ← Changed from column to row */
+    gap: 3px; /* ← Spacing between dots horizontally */
+    cursor: pointer;
+}
+/* Show dots on hover */
+.chat-history-item:hover .chat-item-dots {
+    display: flex;
+}
+/* Individual dot styling */
+.chat-item-dots span {
+    width: 3px;
+    height:3px;
+    background: #ffffff;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+/* Chat Options Popup (Three Dots Menu) */
+.chat-options-popup {
+    position: fixed;
+    background: #2b2b2b;
+    color: white;
+    width: 200px;
+    border-radius: 10px;
+    padding: 10px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    z-index: 9999;
+    animation: fadeIn 0.12s ease-out;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;  /* ← Added this */
+    font-style: normal;
+    border: 1px solid rgba(255, 255, 255, 0.285);
+    font-weight: 400;  /* ← Added this for normal weight */    
+}
+.chat-options-popup.hidden {
+    display: none;
+}
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 18px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.option-item:hover {
+    background: #3a3a3a;
+    border-radius: 12px;
+}
+.divider {
+    height: 1px;
+    background: #444;
+    margin: 8px 0;
+}
+/* Delete styling */
+.delete-item {
+    color: #ff6b6b;
+}
+.delete-item:hover {
+    background: rgba(255, 0, 0, 0.12);
+}
+/* ===== ICONS (perfect style like screenshot) ===== */
+.icon-share {
+    width: 18px;
+    height: 18px;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" stroke="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 8l4 4-4 4M3 12h18"/></svg>');
+    background-size: 18px 18px;
+}
+.icon-rename {
+    width: 18px;
+    height: 18px;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1.003 1.003 0 000-1.42l-2.34-2.34a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/></svg>');
+    background-size: 18px 18px;
+}
+.icon-archive {
+    width: 18px;
+    height: 18px;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.54 5.23L19.15 3.5c-.28-.36-.71-.5-1.15-.5H6c-.44 0-.87.14-1.15.5L3.46 5.23c-.28.36-.46.78-.46 1.27V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.49-.18-.91-.46-1.27zM12 17l-4-4h3V9h2v4h3l-4 4zm6.12-10H5.88L5 6.5l1-1.5h12l1 1.5-.88.5z"/></svg>');
+    background-size: 18px 18px;
+}
+.icon-delete {
+    width: 18px;
+    height: 18px;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="red" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1z"/></svg>');
+    background-size: 18px 18px;
+}
+/* Three dots container with hover background */
+.chat-item-dots {
+    position: absolute;
+    right: 4px;  /* Adjusted positioning */
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+    flex-direction: row;
+    gap: 3px;
+    cursor: pointer;
+    padding: 8px 10px;  /* Creates clickable area */
+    border-radius: 6px;  /* Rounded hover background */
+    transition: background 0.2s ease;  /* Smooth transition */
+}
+/* Hover background effect */
+.chat-item-dots:hover {
+    background: rgba(255, 255, 255, 0.1);  /* Light background on hover */
+}
+/* Show dots on chat item hover */
+.chat-history-item:hover .chat-item-dots {
+    display: flex;
+}
+/* Individual dot styling */
+.chat-item-dots span {
+    width: 3px;
+    height: 3px;
+    background: #ffffff;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Plus Icon Popup which is inside the input bar */
+.plus-popup {
+    position: fixed;
+    background: #3a3a3a;
+    color: white;
+    width: 280px;
+    border-radius: 16px;
+    padding: 12px 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    transform-origin: bottom left;
+    animation: growIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Grow animation */
+@keyframes growIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.plus-popup.hidden {
+    display: none;
+}
+.plus-option {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 400;
+    transition: background 0.15s ease;
+    border-radius: 10px;
+}
+.plus-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.plus-option i {
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+    color: #e0e0e0;
+}
+.plus-separator {
+    width: 90%;
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 8px auto;
+}
+/* Hide old file preview */
+/* File Preview Container - Horizontal layout */
+#file-preview-container {
+    position: fixed;
+    bottom: 90px;
+    left: 80px;
+    display: flex;
+    flex-direction: row; /* ← Make sure it's horizontal */
+    flex-wrap: nowrap; /* ← Don't wrap to new line */
+    gap: 8px; /* ← Space between items */
+    max-width: 600px;
+    padding: 12px;
+    background: rgba(40, 40, 40, 0.95);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, bottom 0.5s ease, left 0.5s ease;
+    pointer-events: none;
+}
+#file-preview-container.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+#file-preview-container:empty {
+    display: none;
+}
+/* Individual file preview items */
+.file-preview-item {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    overflow: visible; /* ← Changed from hidden to visible so X button shows */
+    border: 2px solid #555;
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    flex-shrink: 0; /* ← Don't shrink */
+}
+/* Bring hovered item to front */
+.file-preview-item:hover {
+    transform: scale(1.1);
+    border-color: #777;
+    z-index: 10;
+}
+/* Clip the image inside the rounded border */
+.file-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px; /* ← Match the parent border-radius */
+}
+/* File text/names */
+.file-preview-item p {
+    color: #ddd;
+    font-size: 10px;
+    margin: 0;
+    padding: 4px;
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.2;
+}
+/* X Remove button - TOP LEFT */
+.file-preview-item .remove-file {
+    position: absolute;
+    top: -6px; /* ← Slightly outside the box */
+    left: -6px; /* ← Slightly outside the box */
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: rgba(255, 68, 68, 0.95);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    opacity: 1; /* Always visible */
+    transition: all 0.2s ease;
+    z-index: 5;
+}
+.file-preview-item .remove-file:hover {
+    background: #ff0000;
+    transform: scale(1.1);
+    
+}
+
+
+
+
+
+
+
+
+
+
+/* File attachments in chat messages */
+.message-files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+.message-file-item {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #444;
+    background: #1a1a1a;
+}
+.message-file-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.message-file-item p {
+    color: #ddd;
+    font-size: 11px;
+    padding: 8px;
+    text-align: center;
+}
+/* Separate container for messages with files */
+.message-with-files {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+/* File bubble - separate from text */
+.message-file-bubble {
+    background: #2f2f2f;
+    border-radius: 12px;
+    padding: 8px;
+    max-width: 400px;
+    align-self: flex-end; /* Align to right for user messages */
+}
+.message-file-bubble .message-files {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+}
+.message-file-item {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #444;
+    background: #1a1a1a;
+}
+.message-file-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.message-file-item p {
+    color: #ddd;
+    font-size: 11px;
+    padding: 8px;
+    text-align: center;
+    margin: 0;
+}
+/* Remove blinking cursor from AI messages */
+.message.ai.typing::after {
+    content: none !important;
+}
+/* If you have a cursor animation elsewhere, add this */
+@keyframes blink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+.message.typing::after {
+    display: none; /* Remove cursor completely */
+}
+
+
+
+
+
+
+
+
+
+
+/* Share Popup Overlay */
+.share-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+.share-popup-overlay.hidden {
+    display: none;
+}
+/* Share Popup Box */
+.share-popup-box {
+    background: #2a2a2a;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    animation: popupSlideIn 0.3s ease;
+}
+@keyframes popupSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Share Popup Header */
+.share-popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+.share-popup-header h3 {
+    color: white;
+    font-size: 22px;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.share-close-btn {
+    background: #3a3a3a;
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.share-close-btn:hover {
+    background: #4a4a4a;
+}
+/* Link Container */
+.share-link-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #1a1a1a;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 2px solid #3a3a3a;
+}
+.share-link-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 14px;
+    outline: none;
+    font-family: monospace;
+}
+.share-copy-btn {
+    background: #4a4a4a;
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.share-copy-btn:hover {
+    background: #5a5a5a;
+}
+.share-copy-btn i {
+    font-size: 16px;
+}
+/* Separator */
+.share-separator {
+    height: 1px;
+    background: #3a3a3a;
+    margin: 25px 0 20px 0;
+}
+/* Share Options Title */
+.share-options-title {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+/* Share Options Grid */
+.share-options {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+}
+.share-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.share-option:hover {
+    transform: translateY(-3px);
+}
+.share-option span {
+    color: #ccc;
+    font-size: 12px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+/* Share Icons */
+.share-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: 0.2s;
+}
+.whatsapp-icon {
+    background: #25D366;
+    color: white;
+}
+.facebook-icon {
+    background: #1877F2;
+    color: white;
+}
+.instagram-icon {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: white;
+}
+.email-icon {
+    background: #EA4335;
+    color: white;
+}
+.more-icon {
+    background: #555;
+    color: white;
+}
+.share-icon:hover {
+    transform: scale(1.1);
+}
+.popup-email {
+    font-size: 14px;
+    color: #999;
+    margin-top: 5px;
+    word-break: break-all;  /* Break long emails */
+    overflow-wrap: break-word;
+    max-width: 100%;
+    line-height: 1.4;
+}
+
+
+
+
+
+
+
+
+/* Message container or you can say the container where ai and user chat together */
+.message {
+    position: relative;
+    margin: 15px 0;
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 75%;
+    word-wrap: break-word;
+}
+.message.user {
+    background: #2f2f2f;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+.message.ai {
+    
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+/* Message text */
+.message-text {
+    display: block;
+}
+/* Message actions container */
+.message-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.message:hover .message-actions {
+    opacity: 1;
+}
+/* User message - icons outside and aligned right */
+.message.user .message-actions {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 6px;
+    justify-content: flex-end;
+}
+/* AI message - icons outside and aligned left */
+.message.ai .message-actions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+    justify-content: flex-start;
+}
+/* Icon styling */
+.message-actions i {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2f2f2f;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #b0b0b0;
+    font-size: 14px;
+}
+.message-actions i:hover {
+    background: #3f3f3f;
+    color: white;
+    transform: scale(1.05);
+}
+.message-actions i:active {
+    transform: scale(0.95);
+}
+/* Copy icon when copied */
+.message-actions i.copied {
+    color: #2196F3;
+    background: #1e2a3a;
+}
+/* Like icon when active */
+.message-actions .fa-thumbs-up.liked {
+    color: #4CAF50;
+    background: #1e3a1e;
+}
+/* Dislike icon when active */
+.message-actions .fa-thumbs-down.disliked {
+    color: #f44336;
+    background: #3a1e1e;
+}
+/* Add extra bottom margin to message for icons space */
+.message.user,
+.message.ai {
+    margin-bottom: 50px; /* Extra space for icons */
+}
+/* Spin animation for regenerate */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.message-actions .fa-rotate-right:active {
+    animation: spin 0.5s linear;
+}
+/* Speaking animation */
+.fa-volume-high.speaking {
+    animation: soundWave 0.6s ease-in-out infinite;
+}
+@keyframes soundWave {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* it is a library button opening css code */
+.library-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+
+
+
+
+
+
+
+
+
+/* Mic listening animation */
+/* Mic button - ensure it's circular */
+.mic-icon {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+/* Mic listening state - perfect circular blue border like screenshot */
+.mic-icon.listening {
+    background: transparent !important;
+    border: 3px solid #7db3ff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 0 6px rgba(125, 179, 255, 0.15) !important;
+    animation: micPulse 2s ease-in-out infinite !important;
+}
+.mic-icon.listening i {
+    color: #c0c0c0 !important;
+    font-size: 18px !important;
+}
+/* Pulse animation */
+@keyframes micPulse {
+    0%, 100% {
+        box-shadow: 0 0 0 6px rgba(125, 179, 255, 0.15);
+        border-color: #7db3ff;
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(125, 179, 255, 0.05);
+        border-color: #a5cbff;
+    }
+}
+/* Listening text style */
+.input-container.voice-listening #user-input::placeholder {
+    color: #999;
+    font-weight: 400;
+}
+.message-text {
+    white-space: pre-wrap;   /* ✅ PRESERVE LINE BREAKS */
+    line-height: 1.6;
+}
+
+
+
+
+
+
+
+
+
+
+
+

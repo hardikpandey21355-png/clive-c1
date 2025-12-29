@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Library</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    background: #121212;
+    color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+}
+
+
+
+
+
+/* ================= HEADER ================= */
+.library-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+.library-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+
+
+
+
+/* ================= THREE DOT MENU ================= */
+.menu-wrapper {
+    position: relative;
+}
+.menu-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.menu-btn:hover {
+    background: #1f1f1f;
+}
+.menu-popup {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    background: #1e1e1e;
+    border-radius: 14px;
+    width: 180px;
+    padding: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    display: none;
+    z-index: 100;
+}
+.menu-item {
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.menu-item:hover {
+    background: #2a2a2a;
+}
+
+
+
+
+
+/* ================= GRID ================= */
+.library-container {
+    padding: 0 20px 100px;
+}
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+
+
+
+
+/* ================= PLACEHOLDER ================= */
+.placeholder {
+    position: relative;
+    height: 160px;
+    background: #1b1b1b;
+    border-radius: 14px;
+    overflow: hidden;
+}
+.placeholder::after {
+    content: "";
+    position: absolute;
+    inset: -100%;
+    background: linear-gradient(
+        120deg,
+        transparent 40%,
+        rgba(255,255,255,0.08) 50%,
+        transparent 60%
+    );
+    animation: shimmer 1.5s infinite;
+}
+@keyframes shimmer {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(50%); }
+}
+
+
+
+
+
+/* ================= DIVIDER ================= */
+.divider {
+    margin: 28px 0 18px;
+    border-top: 1px solid #2a2a2a;
+}
+
+
+
+
+
+/* ================= ARCHIVE SECTION ================= */
+.archive-section {
+    display: none;
+}
+.archive-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+.archive-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 6px;
+}
+.archive-item {
+    padding: 16px;
+    border-radius: 10px;
+    background: #0c0c0c;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+.archive-item:hover {
+    background: #262626;
+}
+
+
+
+
+
+/* ================= BACK BUTTON ================= */
+.back-btn {
+    position: fixed;
+    bottom: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: #113ebb;
+    border: 1px solid #000000;
+    color: #fff;
+    cursor: pointer;
+}
+.back-btn:hover {
+    background: #2a2a2a;
+}
+</style>
+
+
+
+
+</head>
+<body>
+
+
+
+
+
+<!-- HEADER -->
+<div class="library-header">
+    <div class="library-title">Library</div>
+    <div class="menu-wrapper">
+        <div class="menu-btn" onclick="toggleMenu()">⋯</div>
+        <div id="menuPopup" class="menu-popup">
+            <div class="menu-item" onclick="showArchive()">Show Archive chats</div>
+        </div>
+    </div>
+</div>
+<div class="library-container">
+    <!-- IMAGE GRID -->
+    <div class="library-grid" id="libraryGrid"></div>
+    <!-- ARCHIVE -->
+    <div id="archiveSection" class="archive-section">
+        <div class="divider"></div>
+        <div class="archive-title">Archived Chats</div>
+        <div class="archive-list">
+            <!-- Dummy archived chats -->
+            <div class="archive-item">Chat with AI – Physics Notes</div>
+            <div class="archive-item">Image Generation – Portrait</div>
+            <div class="archive-item">Math Problem Discussion</div>
+            <div class="archive-item">Project Brainstorming</div>
+        </div>
+    </div>
+</div>
+<div class="back-btn" onclick="history.back()">Back</div>
+<script>
+// Load archived chats from localStorage
+function loadArchivedChats() {
+    const archived = localStorage.getItem('clive_archivedChats');
+    return archived ? JSON.parse(archived) : {};
+}
+const archivedChats = loadArchivedChats();
+const grid = document.getElementById("libraryGrid");
+const menuPopup = document.getElementById("menuPopup");
+const archiveSection = document.getElementById("archiveSection");
+const archiveList = document.querySelector(".archive-list");
+function renderLibrary() {
+    grid.innerHTML = "";
+    // Show placeholders (you can add image generation here later)
+    for (let i = 0; i < 8; i++) {
+        grid.innerHTML += `<div class="placeholder"></div>`;
+    }
+}
+function renderArchivedChats() {
+    archiveList.innerHTML = "";   
+    const sortedArchived = Object.entries(archivedChats).sort((a, b) => 
+        b[1].archivedAt - a[1].archivedAt
+    );
+    if (sortedArchived.length === 0) {
+        archiveList.innerHTML = `
+            <div style="padding: 20px; text-align: center; color: #666;">
+                No archived chats yet
+            </div>
+        `;
+        return;
+    }
+    sortedArchived.forEach(([chatId, chat]) => {
+        const item = document.createElement("div");
+        item.classList.add("archive-item");
+        item.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>${chat.title}</span>
+                <div style="display: flex; gap: 8px;">
+                    <button onclick="restoreChat('${chatId}')" 
+                        style="padding: 4px 14px; background: #2a5fd8; border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 12px;">
+                        Restore
+                    </button>
+                    <button onclick="deleteArchivedChat('${chatId}')" 
+                        style="padding: 4px 14px; background: #d32f2f; border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 12px;">
+                        Delete
+                    </button>
+                </div>
+            </div>
+            <div style="font-size: 12px; color: #888; margin-top: 6px;">
+                ${new Date(chat.archivedAt).toLocaleDateString()} at ${new Date(chat.archivedAt).toLocaleTimeString()}
+            </div>
+        `;
+        archiveList.appendChild(item);
+    });
+}
+function restoreChat(chatId) {
+    // Get archived chat
+    const chat = archivedChats[chatId];
+    if (!chat) return;   
+    // Get current chat history from sessionStorage
+    const currentHistory = JSON.parse(sessionStorage.getItem('clive_chatHistory') || '{}');
+    // Restore to current history
+    currentHistory[chatId] = {
+        title: chat.title,
+        messages: chat.messages,
+        timestamp: chat.timestamp
+    };
+    // Save back to sessionStorage
+    sessionStorage.setItem('clive_chatHistory', JSON.stringify(currentHistory));
+    // Remove from archived
+    delete archivedChats[chatId];
+    localStorage.setItem('clive_archivedChats', JSON.stringify(archivedChats));
+    // Re-render
+    renderArchivedChats();
+    alert("Chat restored successfully! Go back to main page to see it.");
+}
+function deleteArchivedChat(chatId) {
+    if (confirm("Are you sure you want to permanently delete this archived chat?")) {
+        delete archivedChats[chatId];
+        localStorage.setItem('clive_archivedChats', JSON.stringify(archivedChats));
+        renderArchivedChats();
+    }
+}
+function toggleMenu() {
+    menuPopup.style.display =
+        menuPopup.style.display === "block" ? "none" : "block";
+}
+function showArchive() {
+    archiveSection.style.display = "block";
+    menuPopup.style.display = "none";
+    renderArchivedChats();
+}
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".menu-wrapper")) {
+        menuPopup.style.display = "none";
+    }
+});
+renderLibrary();
+</script>
+
+
+
+
+
+
+</body>
+</html>

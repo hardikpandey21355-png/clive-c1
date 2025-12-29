@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clive AI - Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .intro-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+        }
+        
+        /* Video Container */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: fadeInScale 1s ease;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .intro-video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Logo/Title Above Video */
+        .intro-header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease;
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .intro-logo {
+            font-size: 64px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        
+        .intro-tagline {
+            color: #888;
+            font-size: 18px;
+            font-weight: 300;
+        }
+        
+        /* Skip Button */
+        .skip-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: fadeIn 2s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .skip-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-5px);
+        }
+        
+        /* Continue Button (appears after video) */
+        .continue-btn {
+            margin-top: 40px;
+            padding: 16px 48px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 1s;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .continue-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+        
+        /* Loading indicator while video loads */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            display: none;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .intro-logo {
+                font-size: 48px;
+            }
+            
+            .intro-tagline {
+                font-size: 16px;
+            }
+            
+            .video-wrapper {
+                max-width: 90%;
+            }
+            
+            .skip-btn {
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+            
+            .continue-btn {
+                padding: 14px 36px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="intro-container">
+        <!-- Skip Button -->
+        <button class="skip-btn" onclick="skipIntro()">Skip Intro →</button>
+        
+        <!-- Header -->
+        <div class="intro-header">
+            <div class="intro-logo">CLIVE AI</div>
+            <div class="intro-tagline">Your Intelligent Assistant</div>
+        </div>
+        
+        <!-- Video Wrapper -->
+        <div class="video-wrapper">
+            <!-- Loading Indicator -->
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <div>Loading preview...</div>
+            </div>
+            
+            <!-- Replace 'your-video.mp4' with your actual video file path -->
+            <video 
+                id="introVideo" 
+                class="intro-video" 
+                autoplay 
+                muted 
+                playsinline
+                onloadstart="showLoading()"
+                oncanplay="hideLoading()"
+                onended="showContinueButton()">
+                
+                <!-- Replace these paths with your actual video file -->
+                <source src="/static/videos/clive-intro.mp4" type="video/mp4">
+                <source src="/static/videos/clive-intro.webm" type="video/webm">
+                
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <!-- Continue Button (hidden initially, shows after video ends) -->
+        <button class="continue-btn" id="continueBtn" style="display: none;" onclick="continueToApp()">
+            Continue to Clive AI
+        </button>
+    </div>
+
+    <script>
+    const video = document.getElementById('introVideo');
+    const continueBtn = document.getElementById('continueBtn');
+    const loading = document.getElementById('loading');
+    
+    // Show loading indicator
+    function showLoading() {
+        loading.style.display = 'block';
+    }
+    
+    // Hide loading indicator
+    function hideLoading() {
+        loading.style.display = 'none';
+    }
+    
+    // Show continue button when video ends
+    function showContinueButton() {
+        continueBtn.style.display = 'block';
+    }
+    
+    // Skip intro - go directly to main app
+    function skipIntro() {
+        continueToApp();
+    }
+    
+    // Continue to main app
+    function continueToApp() {
+        // Redirect to chat page (no localStorage needed)
+        window.location.href = '/chat';
+    }
+    
+    // Optional: Allow clicking video to pause/play
+    video.addEventListener('click', function() {
+        if (video.paused) {
+            video.play();
+        } else {
+            video.pause();
+        }
+    });
+</script>
+</body>
+</html>

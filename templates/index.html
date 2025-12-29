@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dark Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------------- -->
+<script type="module">
+  import { auth } from "/static/firebase.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // Check authentication only
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      // Not logged in - redirect to login
+      console.log("❌ No user logged in, redirecting to login...");
+      window.location.href = "/login";
+    } else {
+      // Logged in - stay on chat page
+      console.log("✅ User authenticated:", user.email);
+    }
+  });
+</script>
+<!-- ----------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- Cookie Overlay -->
+<div class="cookie-overlay" id="cookie-overlay"></div>
+<!-- Cookie Popup -->
+<div class="cookie-popup" id="cookie-popup">
+    <div class="cookie-header">
+        <h2>Cookie Preference Center</h2>
+        <button class="cookie-close-btn" id="cookie-close">✕</button>
+    </div>
+    <p class="cookie-description">
+        Using websites and apps involves storing and retrieving information from your device, including cookies and other identifiers, which can be shared with third parties, for various activities. We provide a simple tool below allowing you to tailor your choices as you deem fit. You can change your consent at any time. <a>Learn more.</a>
+    </p>
+    <div class="cookie-option">
+        <div class="cookie-option-header">
+            <div class="cookie-option-title">Strictly Necessary Cookies (always active)</div>
+            <div class="toggle-switch active disabled" data-type="necessary">
+                <div class="toggle-knob"></div>
+            </div>
+        </div>
+        <div class="cookie-option-desc">
+            These cookies are essential for the site to function and cannot be toggled off. They assist with security, user authentication, customer support, etc.
+        </div>
+    </div>
+    <div class="cookie-option">
+        <div class="cookie-option-header">
+            <div class="cookie-option-title">Analytics Cookies</div>
+            <div class="toggle-switch active" data-type="analytics">
+                <div class="toggle-knob"></div>
+            </div>
+        </div>
+        <div class="cookie-option-desc">
+            These cookies help us understand how visitors interact with our site. They allow us to measure traffic and improve site performance.
+        </div>
+    </div>
+    <div class="cookie-option">
+        <div class="cookie-option-header">
+            <div class="cookie-option-title">Marketing Performance Cookies</div>
+            <div class="toggle-switch active" data-type="marketing">
+                <div class="toggle-knob"></div>
+            </div>
+        </div>
+        <div class="cookie-option-desc">
+            These cookies help us measure the effectiveness of our marketing campaigns.
+        </div>
+    </div>
+</div>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- three dots at the top right corner -->
+    <div class="menu-box">
+    <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</div>
+<!-- it's pop up -->
+ <div class="dots-popup hidden" id="dots-popup">
+    <button class="popup-item report-item">⚠ Report</button>
+
+    <button class="popup-item delete-item">↪ Delete</button>
+</div>
+<!-- Report Popup -->
+<div id="report-popup" class="report-popup hidden">
+    <div class="report-box">
+        <div class="report-header">
+            <h2>Report a conversation</h2>
+            <button id="close-report" class="close-report-btn">✕</button>
+        </div>
+        <p class="report-subtitle">Why are you reporting this conversation?</p>
+        <div class="report-options">
+            <label><input type="radio" name="reportReason" value="Violence"> Violence & self-harm</label>
+            <label><input type="radio" name="reportReason" value="Sexual abuse"> Sexual exploitation & abuse</label>
+            <label><input type="radio" name="reportReason" value="Child exploitation"> Child exploitation</label>
+            <label><input type="radio" name="reportReason" value="Bullying"> Bullying & harassment</label>
+            <label><input type="radio" name="reportReason" value="Spam"> Spam, fraud & deception</label>
+            <label><input type="radio" name="reportReason" value="Privacy"> Privacy violation</label>
+            <label><input type="radio" name="reportReason" value="IP"> Intellectual property</label>
+            <label><input type="radio" name="reportReason" value="Age"> Age-inappropriate content</label>
+            <label><input type="radio" name="reportReason" value="Other"> Something else</label>
+        </div>
+        <button id="report-confirm-btn" class="report-confirm-btn disabled" disabled>Confirm</button>
+    </div>
+</div>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+  <!-- this is sidebar code -->
+  <div class="sidebar"></div>
+<!-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+<!------------------------------------------------------------------------------------------------------------->
+<!-- clive logo on sidebar -->
+  <img src="{{ url_for('static', filename='images/logo.png') }}" class="sidebar-sticker">
+<!------------------------------------------------------------------------------------------------------------>
+
+
+
+
+
+
+
+
+<!----------------------------------------------------------------------------------------------------------- -->
+ <!-- Clive-V1 font -->
+   <div class="title-text">Clive-V1</div>
+<!--------------------------------------------------------------------------------------------------------------->
+
+
+
+
+
+
+
+
+<!-- -------------------------------------------------------------------------------------- -->
+<!-- the line under the Clive-V1 and three dots -->
+   <div class="top-chat-line"></div>
+<!-- -------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- -------------------------------------------------------------------------------------------- -->
+<!-- New Chat button (NOT inside sidebar) -->
+<div class="new-chat">
+    <i class="fa-regular fa-pen-to-square"></i>
+    <span>New Chat</span>
+</div>
+<!-- --------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ---------------------------------------------------------------------------------------------- -->
+<!-- library button -->
+<a href="{{ url_for('library') }}" class="library-btn">
+    <svg class="library-icon" width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <rect x="3" y="3" width="18" height="18" rx="4" stroke="white" stroke-width="2"/>
+        <line x1="17" y1="6" x2="17" y2="18" stroke="white" stroke-width="2"/>
+        <line x1="6" y1="17" x2="18" y2="17" stroke="white" stroke-width="2"/>
+    </svg>
+    Library
+</a>
+<!-- ------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+<!-- new chat tilte after new chat button with underline -->
+<div class="sidebar-section-title">Your Chats</div>
+<div class="sidebar-section-line"></div>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+<!-- Chat History Container -->
+<div class="chat-history-container" id="chat-history-container"></div>
+<!-- -------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- this is profile button code -->
+<div class="profile-btn">
+    <div class="profile-icon"></div>
+    <span>Your Profile</span>
+</div>
+<!-- ----------------------------------------------------------------------------------------------------- -->
+
+
+
+ 
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+<!-- greeting textss -->
+<div class="greet-text" id="greet-text"></div>
+<!-- ----------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- -------------------------------------------------------------------------------------------------- -->
+<!-- Chat Messages Container -->
+<div class="chat-container" id="chat-container">
+    <!-- Messages will appear here -->
+</div>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------- -->
+<!-- FILE PREVIEW BOX (new) -->
+<div id="file-preview"></div>
+<input type="file" id="hidden-file-input" accept="image/*,.pdf,.txt,.docx,.pptx" multiple hidden>
+<div id="file-preview-container"></div>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+  <!-- this is input bar -->
+  <div class="input-container start-center">
+        <button class="icon-button left-icon">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+        <textarea id="user-input" placeholder="Ask Clive" rows="1"></textarea>
+        <div class="right-icons">
+            <button class="icon-button right-icon mic-icon">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
+            <button class="icon-button right-icon send-icon">
+                <i class="fa-solid fa-arrow-up"></i>
+            </button>
+        </div>
+  </div>
+<!-- ------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+
+
+
+<!-- -------------------------------------------------------------------------------------------------------- -->
+<!-- automatically increases and decreases the height of a textarea while typing, and resets it when text is deleted. -->
+<script>
+// Auto-expand textarea as user types
+const userInput = document.getElementById("user-input");
+userInput.addEventListener("input", function() {
+    // Reset height to auto to get the correct scrollHeight
+    this.style.height = "auto";
+    // Set height based on content, up to max-height
+    this.style.height = this.scrollHeight + "px";
+    // Remove start-center class when typing
+    const box = document.querySelector(".input-container");
+    box.classList.remove("start-center");
+});
+// Reset height when content is cleared
+userInput.addEventListener("keydown", function(e) {
+    if (this.value === "" && (e.key === "Backspace" || e.key === "Delete")) {
+        this.style.height = "24px"; // Changed from "auto" to fixed height
+    }
+});
+</script>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------- -->
+<!-- this is the text which is appearing under input bar for terms and conditions -->
+  <div class="footer-warning">
+    Clive-V1 can make mistakes. Check important informations. 
+    <span class="cookie-link" id="open-cookie-popup">See Cookie Preferences.</span>
+</div>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- this script is for input bar animation from mid to bottom 2nd part of input bar -->
+<script>
+const input = document.getElementById("user-input");
+const box = document.querySelector(".input-container");
+input.addEventListener("input", () => {
+    box.classList.remove("start-center");
+});
+</script>
+<!-- ----------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- These are the greeting text script -->
+<script>
+const greetings = [
+    "What's on your mind today?",
+    "Ready, when you are.",
+    "How can I help you today?",
+    "Wanna chat with me?",
+    "Tell me something interesting.",
+    "What are we doing today?",
+    "I'm listening",
+    "Ask me anything.",
+    "What brings you here?",
+    "How's your day going?",
+    "Ready to brainstorm?",
+    "Need some help?",
+    "I'm here for you.",
+    "Tell me your thoughts.",
+    "Let's get started.",
+    // --- Added funny + AI vibe + friendly ---
+    "I was literally waiting for you.",
+    "Brain ready. Vibes ready. Let’s go.",
+    "Who needs sleep when we can chat?",
+    "My circuits were missing you.",
+    "Welcome back, legend.",
+    "Ready to flex our brain muscles?",
+    "Let’s make your work less stressful.",
+    "I brought the intelligence.",
+    "Guess who’s ready? Always me for you.",
+    "At your service, boss!",
+    "You type. I help. That’s our deal.",
+    "turn your idea into something awesome.",
+    "Give me a problem. Any problem.",
+    "Feeling bored? Let’s fix that.",
+    "I’m basically your pocket nerd."
+];
+const greetBox = document.getElementById("greet-text");
+const inputBox = document.querySelector(".input-container");
+// Set random greeting
+greetBox.innerText = greetings[Math.floor(Math.random() * greetings.length)];
+// Hide greeting when input bar moves down
+userInput.addEventListener("input", () => {
+    greetBox.classList.add("hide");
+});
+</script>
+<!-- --------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- --------------------------------------------------------------------------------------------------- -->
+<!-- Profile Popup,which contains buttons inside the pop up -->
+ <div id="overlay" class="overlay hidden"></div>
+<div id="profile-popup" class="profile-popup hidden">
+    <div class="profile-header">
+        <div class="avatar-circle"></div>
+        <div class="profile-texts">
+            <div class="popup-title">Your Profile</div>
+            <div class="popup-email">useremail@example.com</div>
+        </div>
+    </div>
+    <hr class="popup-separator">
+<button type="button" class="profile-option" id="theme-btn">
+    <span class="icon">三</span>
+    <span>Themes</span>
+</button>
+
+<button type="button" class="profile-option" id="personalize-btn">
+    <span class="icon">🖊</span>
+    <span>Personalize</span>
+</button>
+
+<button type="button" class="profile-option" id="settings-btn">
+    <span class="icon">≔</span>
+    <span>Settings</span>
+</button>
+
+<button type="button" class="profile-option" id="login-btn">
+    <span class="icon">➜]</span>
+    <span>Log In</span>
+</button>
+
+<hr class="popup-separator">
+<button class="profile-option" id="upgrade-btn">
+    <span class="icon">✦</span>
+    <span>Upgrade</span>
+</button>
+</div>
+<!-- --------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- --------------------------------------------------------------------------------------------------- -->
+<!-- Chat title container Options Popup -->
+<div id="chat-options-popup" class="chat-options-popup hidden">
+    <div class="option-item">
+        <span class="icon">➥</span>
+        <span>Share</span>
+    </div>
+
+    <div class="option-item">
+        <span class="icon">▶</span>
+        <span>Rename</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="option-item">
+        <span class="icon">⊘</span>
+        <span>Archive</span>
+    </div>
+
+    <div class="option-item delete-item">
+        <span class="icon">☰</span>
+        <span>Delete</span>
+    </div>
+</div>
+
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- Plus Icon Popup which is in input bar -->
+<div id="plus-popup" class="plus-popup hidden">
+    <div class="plus-option">
+      <i class="fa-solid fa-paperclip"></i>
+      <span>Add photos & files</span>
+    </div>
+    <div class="plus-option">
+        <i class="fa-solid fa-image"></i>
+        <span>Create image</span>
+    </div>
+    <div class="plus-option">
+        <i class="fa-solid fa-binoculars"></i>
+        <span>Deep research</span>
+    </div>
+    <hr class="plus-separator">
+    <div class="plus-option">
+        <i class="fa-solid fa-ellipsis"></i>
+        <span>Upgrade plan</span>
+        <i class="fa-solid fa-chevron-right" style="margin-left: auto; font-size: 14px;"></i>
+    </div>
+</div>
+<!-- --------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ---------------------------------------------------------------------------------------------------- -->
+<!-- Share chat button Popup -->
+<div id="share-popup" class="share-popup-overlay hidden">
+    <div class="share-popup-box">
+        <div class="share-popup-header">
+            <h3>Share Chat</h3>
+            <button class="share-close-btn">✕</button>
+        </div>
+        <!-- Link Box with Copy Button -->
+        <div class="share-link-container">
+            <input type="text" class="share-link-input" id="share-link-input" readonly>
+            <button class="share-copy-btn" id="share-copy-btn">
+                <i class="fa-solid fa-copy"></i>
+            </button>
+        </div>
+        <!-- Separator Line -->
+        <div class="share-separator"></div>
+        <!-- Share Options -->
+        <div class="share-options-title">Share via</div>
+        <div class="share-options">
+            <div class="share-option" data-platform="whatsapp">
+                <div class="share-icon whatsapp-icon">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <span>WhatsApp</span>
+            </div>
+            <div class="share-option" data-platform="facebook">
+                <div class="share-icon facebook-icon">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </div>
+                <span>Facebook</span>
+            </div>
+            <div class="share-option" data-platform="instagram">
+                <div class="share-icon instagram-icon">
+                    <i class="fa-brands fa-instagram"></i>
+                </div>
+                <span>Instagram</span>
+            </div>
+            <div class="share-option" data-platform="email">
+                <div class="share-icon email-icon">
+                    <i class="fa-solid fa-envelope"></i>
+                </div>
+                <span>Email</span>
+            </div>
+            <div class="share-option" data-platform="more">
+                <div class="share-icon more-icon">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
+                <span>More</span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------ -->
+<!-- FILE UPLOAD PRIVEW SYSTEM -->
+<script>
+const fileInput = document.getElementById("hidden-file-input");
+const filePreview = document.getElementById("file-preview");
+let selectedFiles = []; // ✨ Store selected files globally
+// Handle click on "Add photos & files"
+document.querySelector(".plus-option").addEventListener("click", () => {
+    fileInput.click();
+});
+// When file selected
+fileInput.addEventListener("change", (event) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+    const container = document.getElementById("file-preview-container");
+    container.innerHTML = ""; // clear previous
+    selectedFiles = []; // ✨ Clear previous files
+    Array.from(files).forEach((file, fileIndex) => {
+        selectedFiles.push(file); // ✨ Store file
+        const item = document.createElement("div");
+        item.classList.add("file-preview-item");
+        item.setAttribute("data-file-index", fileIndex); // Track file index
+        // If Image
+        if (file.type.startsWith("image/")) {
+            const img = document.createElement("img");
+            img.src = URL.createObjectURL(file);
+            item.appendChild(img);
+        }
+        // For other files
+        else {
+            const text = document.createElement("p");
+            text.textContent = "📄 " + (file.name.length > 8 ? file.name.substring(0, 8) + "..." : file.name);
+            text.style.color = "#ddd";
+            text.style.fontSize = "10px";
+            text.style.margin = "0";
+            item.appendChild(text);
+        }
+        // ✨ ADD X BUTTON
+        const removeBtn = document.createElement("div");
+        removeBtn.classList.add("remove-file");
+        removeBtn.innerHTML = "✕";
+        removeBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            // Remove file from array
+            selectedFiles.splice(fileIndex, 1);
+            // Remove the preview item
+            item.remove();
+            // If no files left, hide container
+            if (selectedFiles.length === 0) {
+                container.classList.remove("show");
+            } 
+            // Re-index remaining items
+            container.querySelectorAll(".file-preview-item").forEach((el, newIndex) => {
+                el.setAttribute("data-file-index", newIndex);
+            });
+        }); 
+        item.appendChild(removeBtn);
+        container.appendChild(item);
+    });
+    // ✨ DYNAMIC POSITIONING
+    const inputContainer = document.querySelector(".input-container");
+    const plusBtn = document.querySelector(".left-icon");
+    const inputRect = inputContainer.getBoundingClientRect();
+    const plusRect = plusBtn.getBoundingClientRect();
+    container.style.bottom = (window.innerHeight - inputRect.top + 15) + "px";
+    container.style.left = plusRect.left + "px";
+    // Show with animation
+    setTimeout(() => container.classList.add("show"), 10);
+    // Close popup
+    document.getElementById("plus-popup").classList.add("hidden");
+});
+</script>
+<!-- ---------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+<!-- =============================================================================== -->
+<!-- THIS IS THE CODE RESPONSIBLE TO MAKE ATTACHED FILES TOGETHER INPUT BAR POSITION -->
+<script>
+// Auto-expand textarea as user types
+userInput.addEventListener("input", function() {
+    const box = document.querySelector(".input-container");
+    const isFirstInput = box.classList.contains("start-center");
+    // ✨ If this is the first input (bar is in center), update file position FIRST
+    if (isFirstInput) {
+        // Remove center class immediately
+        box.classList.remove("start-center");
+        // Update file preview position instantly (no animation on first keypress)
+        const fileContainer = document.getElementById("file-preview-container");
+        if (fileContainer.children.length > 0) {
+            fileContainer.style.transition = "none"; // Remove transition temporarily
+            updateFilePreviewPosition();       
+            // Re-enable transition after a moment
+            setTimeout(() => {
+                fileContainer.style.transition = "opacity 0.3s ease, transform 0.3s ease, bottom 0.5s ease, left 0.5s ease";
+            }, 50);
+        }
+    }
+    // Reset height to auto to get the correct scrollHeight
+    this.style.height = "auto";
+    // Set height based on content, up to max-height
+    this.style.height = this.scrollHeight + "px"; 
+    // ✨ UPDATE FILE PREVIEW POSITION (for subsequent typing)
+    updateFilePreviewPosition();
+});
+// Reset height when content is cleared
+userInput.addEventListener("keydown", function(e) {
+    if (this.value === "" && (e.key === "Backspace" || e.key === "Delete")) {
+        this.style.height = "24px";
+    }
+});
+// ✨ NEW FUNCTION: Update file preview position
+function updateFilePreviewPosition() {
+    const container = document.getElementById("file-preview-container");
+    if (container.children.length === 0) return; // Only update if files exist
+    const inputContainer = document.querySelector(".input-container");
+    const plusBtn = document.querySelector(".left-icon");
+    const inputRect = inputContainer.getBoundingClientRect();
+    const plusRect = plusBtn.getBoundingClientRect();
+    container.style.bottom = (window.innerHeight - inputRect.top + 15) + "px";
+    container.style.left = plusRect.left + "px";
+}
+</script>
+<!-- ===================================================================================================== -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- THIS IS RESPONSIBLE FOR small popup opens above it, and it closes when you click outside or choose an option. -->
+<script>
+const plusBtn = document.querySelector(".left-icon");
+const plusPopup = document.getElementById("plus-popup");
+// Open popup when clicking plus icon
+plusBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const rect = plusBtn.getBoundingClientRect();
+    const inputContainer = document.querySelector(".input-container");
+    const inputRect = inputContainer.getBoundingClientRect();
+    // Position popup just above the plus icon
+    plusPopup.style.bottom = (window.innerHeight - inputRect.top + 10) + "px";
+    plusPopup.style.left = rect.left + "px";
+    // Toggle popup
+    plusPopup.classList.toggle("hidden");
+});
+// Close popup when clicking outside
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".plus-popup") && !e.target.closest(".left-icon")) {
+        plusPopup.classList.add("hidden");
+    }
+});
+// Add click handlers for each option (you can customize these)
+// Add click handlers for each option
+document.querySelectorAll(".plus-option").forEach((option, index) => {
+    option.addEventListener("click", () => {
+        const optionText = option.querySelector("span").textContent.toLowerCase();     
+        // Handle different options
+        if (optionText.includes("upgrade")) {
+            // Open plan page in new tab
+            window.open("/plan", "_blank");
+        } else if (optionText.includes("photo") || optionText.includes("file")) {
+            // File upload is already handled
+            return;
+        } else {
+            console.log("Clicked:", optionText);
+            // Add functionality for other options here
+        }
+        // Close popup
+        plusPopup.classList.add("hidden");
+    });
+});
+</script>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- profile button open and close script with buttons -->
+<script>
+const popup = document.getElementById("profile-popup");
+const overlay = document.getElementById("overlay");
+const closeBtn = document.querySelector(".close-popup");
+// Open popup
+document.querySelector(".profile-btn").addEventListener("click", () => {
+    popup.classList.remove("hidden");
+    overlay.classList.remove("hidden");
+});
+// Close when clicking outside
+overlay.addEventListener("click", () => {
+    popup.classList.add("hidden");
+    overlay.classList.add("hidden");
+});
+</script>
+<!-- -------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- -------------------------------------------------------------------------------------------------------- -->
+<!-- script for three dots pop up which is at the top right corner -->
+<script>
+const dotsBtn = document.querySelector(".menu-box");
+const dotsPopup = document.getElementById("dots-popup");
+dotsBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    dotsPopup.classList.toggle("hidden");
+});
+// Close when clicking outside
+document.addEventListener("click", () => {
+    dotsPopup.classList.add("hidden");
+});
+</script>
+<!-- ----------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+<!-- ---------------------------------------------------------------------------------------------------- -->
+<!-- DELETE ALL CHATS WHEN DELETE BUTTON CLICKED WHICH IS INSIDE THE THREE DOT POP UP -->
+<script>
+document.querySelector(".delete-item").addEventListener("click", () => {
+    const chatContainer = document.getElementById("chat-container");
+    chatContainer.innerHTML = "";          // Remove all messages
+    dotsPopup.classList.add("hidden");     // Hide popup
+});
+</script>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+<!-- -------------------------------------------------------------------------------------------------------------------- -->
+<!-- AND THIS SCRIPT IS FOR REPORT BUTTON WHICH IS ALSO INSIDE THE THREE DOT WHICH ARE LOCATED AT TOP RIGHT CORNER -->
+<script>
+// Keeps track of reported chats
+let reportedChats = new Set(); 
+// Tooltip helper function for messages above buttons
+function showTooltip(button, message, bgColor) {
+    const rect = button.getBoundingClientRect();
+    const tooltip = document.createElement("div");
+    tooltip.textContent = message;
+    tooltip.style.position = "fixed";
+    tooltip.style.background = bgColor;
+    tooltip.style.color = "white";
+    tooltip.style.padding = "8px 12px";
+    tooltip.style.borderRadius = "12px";
+    tooltip.style.top = (rect.top - 22) + "px"; // above button
+    tooltip.style.left = (rect.left - 40)+ "px";
+    tooltip.style.zIndex = "10000";
+    tooltip.style.fontSize = "13px";
+    tooltip.style.boxShadow = "0 0 8px rgba(0,0,0,0.4)";
+    tooltip.style.opacity = "0";
+    tooltip.style.transition = "opacity 0.3s ease";
+     // 🔹 Add font customization here
+    tooltip.style.fontFamily = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"; // example font
+    tooltip.style.fontWeight = "375"; // optional, can be normal, bold, etc.
+    tooltip.style.fontStyle = "normal"; // optional, italic or normal
+    tooltip.style.opacity = "0";
+    tooltip.style.transition = "opacity 0.2s ease";
+    document.body.appendChild(tooltip);
+    setTimeout(() => { tooltip.style.opacity = "1"; }, 10); // fade in
+    setTimeout(() => {
+        tooltip.style.opacity = "0"; // fade out
+        setTimeout(() => tooltip.remove(), 300);
+    }, 2500);
+}
+// Report button click
+document.querySelector(".report-item").addEventListener("click", (event) => {
+    const chatContainer = document.getElementById("chat-container");
+    // No chat yet
+    if (chatContainer.children.length === 0) {
+        showTooltip(event.target, "Sorry, we do not find any chat for report.", "#333");
+        return;
+    }
+    // Track current chat (using first message content as ID)
+    const chatId = chatContainer.children[0].textContent;
+    // Already reported
+    if (reportedChats.has(chatId)) {
+        showTooltip(event.target, "You have already reported that chat.", "red");
+        return;
+    }
+    // Normal report popup
+    document.getElementById("report-popup").classList.remove("hidden");
+    dotsPopup.classList.add("hidden");
+});
+// Confirm report button
+const confirmBtn = document.getElementById("report-confirm-btn");
+confirmBtn.addEventListener("click", () => {
+    const selected = document.querySelector("input[name='reportReason']:checked").value;
+    const chatContainer = document.getElementById("chat-container");
+    if (chatContainer.children.length > 0) {
+        const chatId = chatContainer.children[0].textContent;
+        reportedChats.add(chatId);
+    }
+    document.getElementById("report-popup").classList.add("hidden");
+});
+// Close report popup
+document.getElementById("close-report").addEventListener("click", () => {
+    document.getElementById("report-popup").classList.add("hidden");
+});
+// Enable confirm button after selecting a reason
+document.querySelectorAll("input[name='reportReason']").forEach(radio => {
+    radio.addEventListener("change", () => {
+        confirmBtn.classList.remove("disabled");
+        confirmBtn.classList.add("enabled");
+        confirmBtn.disabled = false;
+    });
+});
+</script>
+<!-- ---------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- --------------------------------------------------------------------------------------------------------- -->
+<!-- script to open the plan.html after clicking on upgrade button -->
+<script>
+document.getElementById("upgrade-btn").addEventListener("click", () => {
+    window.open("/plan", "_blank");
+});
+</script>
+<!-- --------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------- -->
+<!-- script to open the login.html after clicking on login button -->
+<script>
+document.getElementById("login-btn").addEventListener("click", () => {
+    window.location.href = "/login";  // Flask route for login.html
+});
+</script>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- script to open the setting.html after clicking on login button -->
+<script>
+document.getElementById("settings-btn").addEventListener("click", () => {
+    window.open("/settings", "_blank");
+});
+</script>
+<!-- ------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- script to open the personalization.html after clicking on login button -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // PERSONALIZE BUTTON -> OPEN PERSONALIZATION PAGE
+    const personalizeBtn = document.getElementById("personalize-btn");
+    if (personalizeBtn) {
+        personalizeBtn.addEventListener("click", function () {
+            window.location.href = "/personalization";
+        });
+    }
+});
+</script>
+<!-- -------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------- -->
+<!-- shaking effect of theme button -->
+<script>
+    const themeBtn = document.getElementById('theme-btn');
+themeBtn.addEventListener('click', () => {
+    // Add the shake class
+    themeBtn.classList.add('shake');
+    // Remove it after the animation ends
+    setTimeout(() => {
+        themeBtn.classList.remove('shake');
+    }, 500); // same as animation duration
+});
+</script>
+<!-- --------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+<!-- CHAT HISTORY SYSTEM, IT IS RESPONSIBLE FOR SAVE CURRENT CHAT WHEN CLICK ON NEW CHAT BUTTON IN YOUR CHATS SEC 
+ AND YOU CAN AGAIN OPEN YOUR SAVED CHATS BY JUST CLICKING O THEM-->
+<!-- CHAT HISTORY SYSTEM WITH FIREBASE -->
+<script type="module">
+import { auth } from "/static/firebase.js";
+import {
+  saveSingleChat,
+  deleteChatFromFirestore,
+  updateChatTitle
+} from "/static/chatStorage.js";
+
+// Global variables
+window.chatHistory = {};
+window.currentChatId = null;
+window.chatCounter = 0;
+
+// Create a chat title from the first message
+function createChatTitle(message) {
+    return message.length > 22 ? message.substring(0, 22) + "..." : message;
+}
+
+// Render all chat history items in sidebar
+window.renderChatHistory = function() {
+    const container = document.getElementById("chat-history-container");
+    container.innerHTML = "";
+    
+    const sortedChats = Object.entries(window.chatHistory).sort((a, b) => b[1].timestamp - a[1].timestamp);
+    
+    sortedChats.forEach(([chatId, chat], index) => {
+        const chatItem = document.createElement("div");
+        chatItem.classList.add("chat-history-item");
+        
+        if (index === 0 && !chat.animationPlayed) {
+            chatItem.classList.add("typing-title");
+            window.chatHistory[chatId].animationPlayed = true;
+            
+            setTimeout(() => {
+                chatItem.classList.remove("typing-title");
+                chatItem.classList.add("typing-done");
+            }, 2000);
+        }
+        
+        if (chatId === window.currentChatId) {
+            chatItem.classList.add("active");
+        }
+        
+        chatItem.textContent = chat.title;
+        chatItem.setAttribute("data-chat-id", chatId);
+        
+        const dotsContainer = document.createElement("div");
+        dotsContainer.classList.add("chat-item-dots");
+        dotsContainer.innerHTML = `<span></span><span></span><span></span>`;
+        
+        dotsContainer.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const popup = document.getElementById("chat-options-popup");
+            const rect = dotsContainer.getBoundingClientRect();
+            popup.style.top = (rect.top) + "px";
+            popup.style.left = (rect.right + 15) + "px";
+            popup.setAttribute("data-current-chat-id", chatId);
+            popup.classList.remove("hidden");
+        });
+        
+        chatItem.appendChild(dotsContainer);
+        chatItem.addEventListener("click", () => loadChat(chatId));
+        container.appendChild(chatItem);
+    });
+}
+
+// Load a specific chat
+window.loadChat = function(chatId) {
+    const chat = window.chatHistory[chatId];
+    if (!chat) return;
+    
+    if (window.currentChatId && window.currentChatId !== chatId) {
+        saveCurrentChat();
+    }
+    
+    window.currentChatId = chatId;
+    const chatContainer = document.getElementById("chat-container");
+    chatContainer.innerHTML = "";
+    
+    chat.messages.forEach(msg => {
+        addMessage(msg.text, msg.isUser, false);
+    });
+    
+    const greetBox = document.getElementById("greet-text");
+    const inputContainer = document.querySelector(".input-container");
+    greetBox.classList.add("hide");
+    inputContainer.classList.remove("start-center");
+    renderChatHistory();
+}
+
+// Save current chat
+window.saveCurrentChat = async function() {
+    if (!window.currentChatId) return;
+    
+    const chatContainer = document.getElementById("chat-container");
+    const messages = [];
+    
+    chatContainer.querySelectorAll(".message").forEach(msg => {
+        const textDiv = msg.querySelector(".message-text");
+        if (textDiv) {
+            messages.push({
+                text: textDiv.textContent.trim(),
+                isUser: msg.classList.contains("user")
+            });
+        }
+    });
+    
+    if (window.chatHistory[window.currentChatId]) {
+        window.chatHistory[window.currentChatId].messages = messages;
+        
+        if (window.isUserLoggedIn) {
+            await saveSingleChat(window.currentChatId, window.chatHistory[window.currentChatId]);
+        }
+    }
+}
+
+// Create new chat
+window.createNewChat = function(firstMessage) {
+    window.chatCounter++;
+    window.currentChatId = "chat_" + window.chatCounter + "_" + Date.now();
+    
+    window.chatHistory[window.currentChatId] = {
+        title: createChatTitle(firstMessage),
+        messages: [],
+        timestamp: Date.now()
+    };
+    
+    renderChatHistory();
+}
+
+// Auto-save every 30 seconds
+setInterval(() => {
+    if (window.currentChatId && window.isUserLoggedIn) {
+        saveCurrentChat();
+    }
+}, 30000);
+
+console.log("✅ Chat history system initialized with Firebase");
+</script>
+<!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------------------------- -->
+<!-- Chat Options Popup Handler WHICH APPEARS AFTER CLICKING ON THREE DOTS OF CHAT TITLE CONTAINER  -->
+<!-- Chat Options Popup Handler WITH FIREBASE -->
+<script type="module">
+import { auth } from "/static/firebase.js";
+import {
+  deleteChatFromFirestore,
+  updateChatTitle
+} from "/static/chatStorage.js";
+
+const chatOptionsPopup = document.getElementById("chat-options-popup");
+
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".chat-item-dots") && !e.target.closest(".chat-options-popup")) {
+        chatOptionsPopup.classList.add("hidden");
+    }
+});
+
+// SHARE
+document.querySelectorAll(".option-item")[0].addEventListener("click", () => {
+    const chatId = chatOptionsPopup.getAttribute("data-current-chat-id");
+    if (chatId && window.chatHistory[chatId]) {
+        const shareLink = `${window.location.origin}/chat/${chatId}`;
+        document.getElementById("share-link-input").value = shareLink;
+        document.getElementById("share-popup").classList.remove("hidden");
+    }
+    chatOptionsPopup.classList.add("hidden");
+});
+
+// RENAME
+document.querySelectorAll(".option-item")[1].addEventListener("click", async () => {
+    const chatId = chatOptionsPopup.getAttribute("data-current-chat-id");
+    if (chatId && window.chatHistory[chatId]) {
+        const currentTitle = window.chatHistory[chatId].title;
+        const newTitle = prompt("Enter new chat name:", currentTitle);
+        
+        if (newTitle !== null && newTitle.trim() !== "") {
+            window.chatHistory[chatId].title = newTitle.trim();
+            
+            if (window.isUserLoggedIn) {
+                await updateChatTitle(chatId, newTitle.trim());
+            }
+            
+            renderChatHistory();
+        }
+    }
+    chatOptionsPopup.classList.add("hidden");
+});
+
+// ARCHIVE
+document.querySelectorAll(".option-item")[2].addEventListener("click", () => {
+    const chatId = chatOptionsPopup.getAttribute("data-current-chat-id");
+    if (chatId && window.chatHistory[chatId]) {
+        let archivedChats = JSON.parse(localStorage.getItem('clive_archivedChats') || '{}');
+        
+        archivedChats[chatId] = {
+            title: window.chatHistory[chatId].title,
+            messages: window.chatHistory[chatId].messages,
+            timestamp: window.chatHistory[chatId].timestamp,
+            archivedAt: Date.now()
+        };
+        
+        localStorage.setItem('clive_archivedChats', JSON.stringify(archivedChats));
+        delete window.chatHistory[chatId];
+        
+        if (window.currentChatId === chatId) {
+            window.currentChatId = null;
+            document.getElementById("chat-container").innerHTML = "";
+            const inputContainer = document.querySelector(".input-container");
+            const greetBox = document.getElementById("greet-text");
+            const greetings = ["What's on your mind today?", "Ready, when you are."];
+            
+            inputContainer.classList.add("start-center");
+            greetBox.classList.remove("hide");
+            greetBox.innerText = greetings[Math.floor(Math.random() * greetings.length)];
+        }
+        
+        renderChatHistory();
+        
+        if (typeof showTooltip === 'function') {
+            showTooltip(document.querySelector(".option-item")[2], "Chat archived successfully!", "#4CAF50");
+        }
+    }
+    chatOptionsPopup.classList.add("hidden");
+});
+
+// DELETE
+document.querySelectorAll(".option-item")[3].addEventListener("click", async () => {
+    const chatId = chatOptionsPopup.getAttribute("data-current-chat-id");
+    if (chatId && window.chatHistory[chatId]) {
+        if (!confirm("Are you sure you want to delete this chat?")) {
+            chatOptionsPopup.classList.add("hidden");
+            return;
+        }
+        
+        delete window.chatHistory[chatId];
+        
+        if (window.isUserLoggedIn) {
+            await deleteChatFromFirestore(chatId);
+        }
+        
+        if (window.currentChatId === chatId) {
+            window.currentChatId = null;
+            document.getElementById("chat-container").innerHTML = "";
+            const inputContainer = document.querySelector(".input-container");
+            const greetBox = document.getElementById("greet-text");
+            const greetings = ["What's on your mind today?", "Ready, when you are."];
+            
+            inputContainer.classList.add("start-center");
+            greetBox.classList.remove("hide");
+            greetBox.innerText = greetings[Math.floor(Math.random() * greetings.length)];
+        }
+        
+        renderChatHistory();
+    }
+    chatOptionsPopup.classList.add("hidden");
+});
+
+console.log("✅ Chat options handlers initialized with Firebase");
+</script>
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+
+
+
+
+<!-- ---------------------------------------------------------------------------------------------------------------------- -->
+<!-- THE PROCESS AFTER YOU CLICK ON SHARE BUTTON WHICH IS PRESENT INSIDE THE CHAT TITLE THREE DOTS -->
+<script>
+const sharePopup = document.getElementById("share-popup");
+const shareLinkInput = document.getElementById("share-link-input");
+const shareCopyBtn = document.getElementById("share-copy-btn");
+// Close share popup
+document.querySelector(".share-close-btn").addEventListener("click", () => {
+    sharePopup.classList.add("hidden");
+});
+// Close when clicking overlay
+sharePopup.addEventListener("click", (e) => {
+    if (e.target === sharePopup) {
+        sharePopup.classList.add("hidden");
+    }
+});
+// Copy link to clipboard
+shareCopyBtn.addEventListener("click", () => {
+    shareLinkInput.select();
+    document.execCommand("copy");
+    // Change icon to checkmark temporarily
+    const icon = shareCopyBtn.querySelector("i");
+    icon.classList.remove("fa-copy");
+    icon.classList.add("fa-check");
+    shareCopyBtn.style.background = "#4CAF50"; 
+    setTimeout(() => {
+        icon.classList.remove("fa-check");
+        icon.classList.add("fa-copy");
+        shareCopyBtn.style.background = "#4a4a4a";
+    }, 2000);
+});
+// Share to different platforms
+document.querySelectorAll(".share-option").forEach(option => {
+    option.addEventListener("click", () => {
+        const platform = option.getAttribute("data-platform");
+        const shareLink = shareLinkInput.value;
+        const shareText = "Check out this chat!";
+        let shareUrl;
+        switch(platform) {
+            case "whatsapp":
+                shareUrl = `https://wa.me/?text=${encodeURIComponent(shareText + " " + shareLink)}`;
+                break;
+            case "facebook":
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`;
+                break;
+            case "instagram":
+                // Instagram doesn't support direct link sharing, copy link instead
+                shareLinkInput.select();
+                document.execCommand("copy");
+                alert("Link copied! Paste it in your Instagram bio or DM.");
+                return;
+            case "email":
+                shareUrl = `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(shareLink)}`;
+                break;
+            case "more":
+                // Use native share if available
+                if (navigator.share) {
+                    navigator.share({
+                        title: shareText,
+                        url: shareLink
+                    });
+                } else {
+                    shareLinkInput.select();
+                    document.execCommand("copy");
+                    alert("Link copied to clipboard!");
+                }
+                return;
+        }        
+        // Open share URL
+        window.open(shareUrl, "_blank");
+    });
+});
+</script>
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- -------------------------------------------------------------------------------------------------------------------- -->
+<!--
+CHAT MESSAGE HANDLING SCRIPT
+
+This script controls the main chat behavior of the application.
+
+What this script does:
+- Sends user messages when the Send button is clicked or Enter is pressed
+- Displays user messages and AI messages in chat bubbles
+- Shows a “thinking” animation while AI is generating a response
+- Animates AI replies with a typing effect
+- Supports sending and displaying attached files (images & documents)
+- Manages chat sessions and saves messages automatically
+- Enables message actions like copy, like, dislike, speak, and regenerate
+- Disables the send button while AI is responding to prevent multiple sends
+- Handles server communication and displays error messages if needed
+- Keeps the chat scrolled to the latest message for better UX
+
+In short:
+This script is responsible for sending messages, showing AI responses,
+handling animations, file previews, and managing user interactions
+inside the chat interface.
+-->
+<script>
+// Get elements
+const sendBtn = document.querySelector(".send-icon");
+const chatContainer = document.getElementById("chat-container");
+const greetText = document.getElementById("greet-text");
+const inputContainer = document.querySelector(".input-container");
+// Typing animation function
+// Typing animation function (NO CURSOR)
+function typeWriterEffect(text, element, speed = 1) {  // ✅ 1 millisecond = super fast
+    let index = 0;
+    element.textContent = "";
+    function type() {
+        if (index < text.length) {
+            element.textContent += text.charAt(index);
+            index++;
+            setTimeout(type, speed);
+        } else {
+            element.classList.remove("typing");
+            saveCurrentChat();
+        }
+    }
+    type();
+}
+// Create thinking bubble
+function showThinkingBubble() {
+    const bubble = document.createElement("div");
+    bubble.classList.add("message", "ai", "thinking-bubble");
+    bubble.innerHTML = `Clive is <span class="thinking-word">thinking</span>…`;
+    chatContainer.appendChild(bubble);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    const words = ["thinking", "shaping", "checking"];
+    let index = 0;
+    // swap word every 1 second
+    const interval = setInterval(() => {
+        const span = bubble.querySelector(".thinking-word");
+        // fade out animation
+        span.classList.add("fade-out");
+        setTimeout(() => {
+            index = (index + 1) % words.length;
+            span.textContent = words[index];
+            // remove fade-out, fade-in again
+            span.classList.remove("fade-out");
+            span.classList.add("fade-in");
+             // ★ FIX: keep thinking bubble visible even during scroll
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 300);
+    }, 1000);
+    // return both bubble AND interval so we can stop it later
+    return { bubble, interval };
+}
+// Function to add message
+// Function to add message with optional files
+function addMessage(text, isUser, animated = false, files = []) {
+    // ✨ If user message has files, create separate bubbles
+    if (isUser && files.length > 0) {
+        // Create file bubble first
+        const fileBubble = document.createElement("div");
+        fileBubble.classList.add("message-file-bubble");
+        const filesContainer = document.createElement("div");
+        filesContainer.classList.add("message-files");
+        files.forEach(file => {
+            const fileItem = document.createElement("div");
+            fileItem.classList.add("message-file-item");
+            if (file.type.startsWith("image/")) {
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                fileItem.appendChild(img);
+            } else {
+                const p = document.createElement("p");
+                p.textContent = "📄 " + file.name;
+                fileItem.appendChild(p);
+            } 
+            filesContainer.appendChild(fileItem);
+        });   
+        fileBubble.appendChild(filesContainer);
+        chatContainer.appendChild(fileBubble);
+    }
+    // Create text message bubble (separate)
+    // Create message wrapper
+const messageDiv = document.createElement("div");
+messageDiv.classList.add("message", isUser ? "user" : "ai");
+// Message text
+const messageText = document.createElement("div");
+messageText.classList.add("message-text");
+// Actions container
+const actionsDiv = document.createElement("div");
+actionsDiv.classList.add("message-actions");
+// USER MESSAGE → only COPY
+if (isUser) {
+    actionsDiv.innerHTML = `
+        <i class="fa-regular fa-copy" title="Copy"></i>
+    `;
+} 
+// AI MESSAGE → like, dislike, copy, restart
+else {
+    actionsDiv.innerHTML = `
+        <i class="fa-regular fa-thumbs-up" title="Like"></i>
+        <i class="fa-regular fa-thumbs-down" title="Dislike"></i>
+        <i class="fa-regular fa-copy" title="Copy"></i>
+        <i class="fa-solid fa-volume-high" title="Speak" data-speaking="false"></i>
+        <i class="fa-solid fa-rotate-right" title="Regenerate"></i>
+    `;
+}
+// Handle animated typing
+if (animated) {
+    messageText.classList.add("typing");
+    messageDiv.appendChild(messageText);
+    messageDiv.appendChild(actionsDiv);
+    chatContainer.appendChild(messageDiv);
+    typeWriterEffect(text, messageText);
+} else {
+    messageText.textContent = text;
+    messageDiv.appendChild(messageText);
+    messageDiv.appendChild(actionsDiv);
+    chatContainer.appendChild(messageDiv);
+}
+}
+document.addEventListener("click", (e) => {
+    if (e.target.classList.contains("fa-copy")) {
+        const text = e.target
+            .closest(".message")
+            .querySelector(".message-text")
+            .innerText;
+        navigator.clipboard.writeText(text);
+        e.target.classList.add("copied");
+        setTimeout(() => {
+            e.target.classList.remove("copied");
+        }, 800);
+    }
+});
+// Function to send message
+// Function to send message
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (message === "") return;   
+    
+    // Create new chat if this is first message
+    if (!currentChatId || chatContainer.children.length === 0) {
+        createNewChat(message);
+    }
+    
+    // ✅ STORE FILES BEFORE CLEARING
+    const filesToSend = [...selectedFiles];
+
+    
+    // ✅ GET PERSONALIZATION DATA
+    const personalization = localStorage.getItem('clive_personalization');
+    const personalizationData = personalization ? JSON.parse(personalization) : null;
+    
+    // ✨ Add message with files
+    addMessage(message, true, false, selectedFiles);
+    
+    // Save user message
+    saveCurrentChat();
+    
+    userInput.value = "";
+    userInput.style.height = "24px";
+    greetText.classList.add("hide");
+    inputContainer.classList.remove("start-center");
+    
+    // ✅✅✅ MOVE THIS SECTION HERE - CLEAR FILES IMMEDIATELY ✅✅✅
+    const filePreviewContainer = document.getElementById("file-preview-container");
+    filePreviewContainer.innerHTML = "";
+    filePreviewContainer.classList.remove("show");
+    selectedFiles = [];
+    // ✅✅✅ END OF MOVED SECTION ✅✅✅
+    
+    // Disable send button and change to square
+    sendBtn.disabled = true;
+    sendBtn.classList.add("stop");
+    sendBtn.querySelector("i").classList.remove("fa-arrow-up");
+    sendBtn.querySelector("i").classList.add("fa-square");
+    
+    // Add thinking bubble
+    const thinking = showThinkingBubble();
+    
+    try {
+        let response;
+        
+        // ✅ Check if files are attached
+        if (filesToSend.length > 0) {
+            console.log("📎 Sending with file:", filesToSend[0].name);
+            
+            const formData = new FormData();
+            formData.append('message', message);
+            formData.append('session_id', currentChatId || "default");
+            formData.append('type', 'free');
+            formData.append('file', filesToSend[0]);
+             if (personalizationData) formData.append('personalization', JSON.stringify(personalizationData));  // ✅ ADD THIS
+            
+            response = await fetch('/ask-with-file', {
+                method: 'POST',
+                body: formData
+            });
+        } else {
+            console.log("💬 Sending without file");   
+            
+            response = await fetch('/ask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    message: message,
+                    type: "free",
+                    session_id: currentChatId || "default",
+                     personalization: personalizationData  // ✅ ADD THIS LINE
+                })
+            });
+        }
+        
+        const data = await response.json();  
+        
+        clearInterval(thinking.interval);
+        thinking.bubble.remove();  
+        
+        addMessage(data.reply, false, true);
+        
+        // 🔥 Save to Firebase after AI responds
+        if (window.isUserLoggedIn && window.currentChatId) {
+            await saveCurrentChat();
+        }   
+        
+    } catch (error) {
+        clearInterval(thinking.interval);
+        thinking.bubble.remove();
+        addMessage("Sorry, I'm having trouble connecting. Please try again!", false, true);
+        console.error('Error:', error);
+    }
+    
+    // ❌ REMOVE THIS OLD SECTION (it was here before)
+    // const filePreviewContainer = document.getElementById("file-preview-container");
+    // filePreviewContainer.innerHTML = "";
+    // filePreviewContainer.classList.remove("show");
+    // selectedFiles = [];
+    // ❌ END OF REMOVED SECTION
+    
+    setTimeout(() => {
+        sendBtn.disabled = false;
+        sendBtn.classList.remove("stop");
+        sendBtn.querySelector("i").classList.remove("fa-square");
+        sendBtn.querySelector("i").classList.add("fa-arrow-up");
+    }, 500);
+}
+document.addEventListener("click", (e) => {
+    const icon = e.target;
+    // LIKE
+    if (icon.classList.contains("fa-thumbs-up")) {
+        const actions = icon.closest(".message-actions");
+        const dislike = actions.querySelector(".fa-thumbs-down");
+        icon.classList.toggle("liked");
+        dislike.classList.remove("disliked");
+    }
+    // DISLIKE
+    if (icon.classList.contains("fa-thumbs-down")) {
+        const actions = icon.closest(".message-actions");
+        const like = actions.querySelector(".fa-thumbs-up");
+        icon.classList.toggle("disliked");
+        like.classList.remove("liked");
+    }
+});
+// Send message on button click
+sendBtn.addEventListener("click", sendMessage);
+// Send message on Enter key
+// Send message on Enter key (prevent default new line)
+userInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter" && !e.shiftKey && !sendBtn.disabled) {
+        e.preventDefault(); // Prevents new line from being added
+        sendMessage();
+    }
+});
+</script>
+<!-- ------------------------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------- -->
+<!--
+Text-to-Speech system:
+Speaks AI messages aloud with natural voice, emotion,
+chunked playback, and speaker icon controls.
+-->
+<script>
+// Text-to-Speech System with Natural Voice
+let currentSpeech = null;
+let currentSpeakIcon = null;
+// Check if browser supports speech synthesis
+if ('speechSynthesis' in window) {
+    // Function to get the best natural voice
+    function getBestVoice() {
+        const voices = speechSynthesis.getVoices();
+        // Priority order: Google US English > Microsoft > Any English
+        const preferred = [
+            'Google US English',
+            'Microsoft David - English (United States)',
+            'Microsoft Zira - English (United States)',
+            'Alex', // macOS
+            'Samantha' // macOS
+        ];
+        // Try to find preferred voice
+        for (let name of preferred) {
+            const voice = voices.find(v => v.name === name);
+            if (voice) return voice;
+        }   
+        // Fallback: find any good English voice
+        return voices.find(v => 
+            v.lang.startsWith('en') && 
+            (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Premium'))
+        ) || voices.find(v => v.lang.startsWith('en-US')) || voices[0];
+    }
+    // Load voices (some browsers load them async)
+    speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => {
+        speechSynthesis.getVoices();
+    };   
+    // Function to process text for natural speech
+  function processTextForSpeech(text) {
+    return text
+        .replace(/```[\s\S]*?```/g, ' ')
+        .replace(/`([^`]+)`/g, '$1')
+        .replace(/^#+\s*(.*)$/gm, '$1.')
+        .replace(/\n+/g, '. ')
+        .replace(/\bAI\b/g, 'Artificial Intelligence')
+        .replace(/\bAPI\b/g, 'A P I')
+        .replace(/\bUI\b/g, 'User Interface')
+        .replace(/\bUX\b/g, 'User Experience')
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/\*([^*]+)\*/g, '$1')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+    // Speak text with natural voice
+    function speakText(text, iconElement) {
+        // Stop any current speech
+        if (currentSpeech) {
+            speechSynthesis.cancel();
+            if (currentSpeakIcon) {
+                currentSpeakIcon.classList.remove('speaking');
+                currentSpeakIcon.setAttribute('data-speaking', 'false');
+            }
+        }
+        // Process text for natural speech
+        const processedText = processTextForSpeech(text);
+        // Create speech utterance
+        const utterance = new SpeechSynthesisUtterance(processedText);
+        // Set voice and parameters for natural sound
+        const voice = getBestVoice();
+        if (voice) {
+            utterance.voice = voice;
+        }
+        // Natural speech parameters
+        utterance.rate = 0.95;    // Slightly slower for clarity
+        utterance.pitch = 1.0;     // Natural pitch
+        utterance.volume = 1.0;    // Full volume
+        // Add emotion/emphasis (varies by content)
+     const excitement = (text.match(/!/g) || []).length;
+utterance.rate = 0.95 + Math.min(excitement * 0.02, 0.05);
+utterance.pitch = 1.0 + Math.min(excitement * 0.02, 0.06);
+        // Handle events
+        utterance.onstart = () => {
+            iconElement.classList.add('speaking');
+            iconElement.setAttribute('data-speaking', 'true');
+            currentSpeech = utterance;
+            currentSpeakIcon = iconElement;
+        };
+        utterance.onend = () => {
+            iconElement.classList.remove('speaking');
+            iconElement.setAttribute('data-speaking', 'false');
+            currentSpeech = null;
+            currentSpeakIcon = null;
+        };
+        utterance.onerror = (event) => {
+            console.error('Speech error:', event);
+            iconElement.classList.remove('speaking');
+            iconElement.setAttribute('data-speaking', 'false');
+            currentSpeech = null;
+            currentSpeakIcon = null;
+        };     
+        // Speak!
+        speakInChunks(processedText, {
+    voice,
+    rate: utterance.rate,
+    pitch: utterance.pitch,
+    volume: utterance.volume
+});
+    }
+    // Stop speech function
+    function stopSpeech(iconElement) {
+        speechSynthesis.cancel();
+        iconElement.classList.remove('speaking');
+        iconElement.setAttribute('data-speaking', 'false');
+        currentSpeech = null;
+        currentSpeakIcon = null;
+    }
+    // Click handler for speak icon
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("fa-volume-high")) {
+            const icon = e.target;
+            const isSpeaking = icon.getAttribute('data-speaking') === 'true';     
+            if (isSpeaking) {
+                // Stop speaking
+                stopSpeech(icon);
+            } else {
+                // Start speaking
+                const messageText = icon.closest(".message").querySelector(".message-text");
+                if (messageText) {
+                    const text = messageText.textContent.trim();
+                    speakText(text, icon);
+                }
+            }
+        }
+    });
+} else {
+    // Browser doesn't support speech synthesis
+    console.warn('Text-to-speech not supported in this browser');   
+    // Show alert when user tries to use it
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("fa-volume-high")) {
+            alert('Text-to-speech is not supported in your browser. Please try Chrome, Edge, or Safari.');
+        }
+    });
+}
+function speakInChunks(text, utteranceConfig) {
+    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+    let index = 0;
+    function speakNext() {
+        if (index >= sentences.length) return;
+        const u = new SpeechSynthesisUtterance(sentences[index].trim());
+        Object.assign(u, utteranceConfig);
+        u.onend = () => {
+            index++;
+            setTimeout(speakNext, 40); // very short transition
+        };
+        speechSynthesis.speak(u);
+    }
+    speakNext();
+}
+</script>
+<!-- ---------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------------ -->
+<!-- This script is reponsible for, after clicking on new chat a new chat sec appears -->
+<script>
+const newChatBtn = document.querySelector(".new-chat");
+newChatBtn.addEventListener("click", async () => {
+    // Save current chat before starting new one
+    if (currentChatId && document.getElementById("chat-container").children.length > 0) {
+        await saveCurrentChat();   
+        // ✨ CLEAR BACKEND MEMORY
+        fetch('/clear-history', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                session_id: currentChatId
+            })
+        }).catch(err => console.log('Clear error:', err));
+    }
+    // Reset chat ID for new chat
+    currentChatId = null;
+    // 1️⃣ Clear chat messages
+    document.getElementById("chat-container").innerHTML = "";
+    // ✨ CLEAR FILE PREVIEW
+    const filePreviewContainer = document.getElementById("file-preview-container");
+    filePreviewContainer.innerHTML = "";
+    filePreviewContainer.classList.remove("show");
+    // 2️⃣ Hide popups
+    document.getElementById("report-popup").classList.add("hidden");
+    dotsPopup.classList.add("hidden");
+    // 3️⃣ Reset reported chats
+    reportedChats.clear();
+    // 4️⃣ Reset input bar
+    userInput.value = "";
+    userInput.style.height = "24px";
+    inputContainer.classList.add("start-center");
+    // 5️⃣ Reset greeting text
+    greetBox.classList.remove("hide");
+    greetBox.innerText = greetings[Math.floor(Math.random() * greetings.length)];
+    // 6️⃣ Reset send button to normal state
+    sendBtn.disabled = false;
+    sendBtn.classList.remove("stop");
+    sendBtn.querySelector("i").classList.remove("fa-square");
+    sendBtn.querySelector("i").classList.add("fa-arrow-up");
+    // 7️⃣ Remove active state from all chat items
+    document.querySelectorAll(".chat-history-item").forEach(item => {
+        item.classList.remove("active");
+    });
+}); // ✅ This closes the addEventListener - it was in wrong place before
+</script>
+<!-- --------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------------- -->
+<!-- Cookie Popup Script -->
+<script>
+const cookiePopup = document.getElementById("cookie-popup");
+const cookieOverlay = document.getElementById("cookie-overlay");
+const cookieLink = document.getElementById("open-cookie-popup");
+const cookieCloseBtn = document.getElementById("cookie-close");
+// Open cookie popup
+cookieLink.addEventListener("click", () => {
+    cookieOverlay.classList.add("show");
+    cookiePopup.classList.add("show");
+});
+// Close cookie popup
+cookieCloseBtn.addEventListener("click", () => {
+    cookieOverlay.classList.remove("show");
+    cookiePopup.classList.remove("show");
+});
+cookieOverlay.addEventListener("click", () => {
+    cookieOverlay.classList.remove("show");
+    cookiePopup.classList.remove("show");
+});
+// Toggle switches
+document.querySelectorAll(".toggle-switch").forEach(toggle => {
+    toggle.addEventListener("click", function() {
+        if (!this.classList.contains("disabled")) {
+            this.classList.toggle("active");
+        }
+    });
+});
+</script>
+<!-- ----------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+<!-- ----------------------------------------------------------------------------------------------------------- -->
+<!-- This script lets users speak instead of typing,
+turning voice input into text smoothly and continuously. -->
+<!-- mic icon script -->
+<script>
+// Voice input functionality
+const micBtn = document.querySelector(".mic-icon");
+let recognition = null;
+let isListening = false;
+// Check if browser supports speech recognition
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.continuous = true; // ✅ Changed to true for continuous listening
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+// When speech is recognized
+    recognition.onresult = (event) => {
+        let finalTranscript = '';
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            const transcript = event.results[i][0].transcript;
+            if (event.results[i].isFinal) {
+                finalTranscript += transcript + ' ';
+            } else {
+                interimTranscript += transcript;
+            }
+        }
+        // Show real-time text (both final and interim)
+        userInput.value = finalTranscript + interimTranscript;  
+        // Auto-resize textarea
+        userInput.style.height = "auto";
+        userInput.style.height = userInput.scrollHeight + "px";
+        inputContainer.classList.remove("start-center");
+    };
+    // When recognition ends (restart it if still listening)
+    recognition.onend = () => {
+        if (isListening) {
+            try {
+                recognition.start(); // ✅ Restart to keep listening
+            } catch (error) {
+                console.log('Recognition restart:', error);
+            }
+        }
+    };
+    // Handle errors
+    recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);       
+        if (event.error === 'not-allowed') {
+            alert('Microphone access denied. Please allow microphone access in your browser settings.');
+            stopListening();
+        } else if (event.error === 'no-speech') {
+            // Don't stop on no-speech, just continue
+            console.log('No speech detected, continuing...');
+        }
+    };
+}
+// Function to stop listening
+function stopListening() {
+    isListening = false;
+    if (recognition) {
+        recognition.stop();
+    }
+    micBtn.classList.remove("listening");
+    // Restore placeholder
+    userInput.placeholder = "Ask Clive";   
+    // Remove listening class from input container
+    inputContainer.classList.remove("voice-listening");
+}
+// Mic button click handler
+micBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (!recognition) {
+        alert('Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
+        return;
+    }
+    if (isListening) {
+        // ✅ Stop listening when clicked again
+        stopListening();
+    } else {
+        // Start listening
+        try {
+            userInput.value = ''; // Clear previous input
+            recognition.start();
+            isListening = true;
+            micBtn.classList.add("listening");
+            // Change placeholder to "Listening"
+            userInput.placeholder = "Listening";
+            // Add listening class to input container
+            inputContainer.classList.add("voice-listening");     
+        } catch (error) {
+            console.error('Error starting recognition:', error);
+            stopListening();
+        }
+    }
+});
+</script>
+<!-- ----------------------------------------------------------------------------------------------------------- -->
+
+
+
+
+
+
+
+<!-- ------------------------------------------------------------------------------------------------------------ -->
+<!-- THIS SCRIPT IS RESPONSIBLE TO CHECK THE USER STATUS (LOG IN OR LOG OUT) 
+     IF LOG IN THEN STORE THE DATA 
+     IF LOG OUT THEN DON'T STORE THE DATA -->
+<script type="module">
+  import { auth } from "/static/firebase.js";
+  import {
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  
+  import {
+    loadChatsFromFirestore,
+    saveSingleChat,
+    deleteChatFromFirestore,
+    updateChatTitle
+  } from "/static/chatStorage.js";
+
+  const emailBox = document.querySelector(".popup-email");
+  const loginBtn = document.getElementById("login-btn");
+
+  window.isUserLoggedIn = false;
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      // USER LOGGED IN
+      window.isUserLoggedIn = true;
+      emailBox.textContent = user.email || "Phone User";
+
+      // 🎨 UPDATE PROFILE AVATAR WITH FIRST LETTER
+      const profileIcon = document.querySelector(".profile-icon");
+      const avatarCircle = document.querySelector(".avatar-circle");
+      
+      let firstLetter = "G"; // Default for guest
+      
+      if (user.email) {
+        firstLetter = user.email.charAt(0).toUpperCase();
+      } else if (user.displayName) {
+        firstLetter = user.displayName.charAt(0).toUpperCase();
+      } else if (user.phoneNumber) {
+        firstLetter = user.phoneNumber.charAt(1); // Get first digit after +
+      }
+      
+      // Update profile button (sidebar)
+      if (profileIcon) {
+        profileIcon.textContent = firstLetter;
+        profileIcon.style.background = "#4CAF50"; // Green background
+        profileIcon.style.color = "#1B5E20"; // Dark green text
+        profileIcon.style.fontSize = "24px";
+        profileIcon.style.fontWeight = "bold";
+        profileIcon.style.display = "flex";
+        profileIcon.style.alignItems = "center";
+        profileIcon.style.justifyContent = "center";
+      }
+      
+      // Update popup avatar
+      if (avatarCircle) {
+        avatarCircle.textContent = firstLetter;
+        avatarCircle.style.background = "#4CAF50"; // Green background
+        avatarCircle.style.color = "#1B5E20"; // Dark green text
+        avatarCircle.style.fontSize = "28px";
+        avatarCircle.style.fontWeight = 200;
+        avatarCircle.style.display = "flex";
+        avatarCircle.style.alignItems = "center";
+        avatarCircle.style.justifyContent = "center";
+      }
+
+      loginBtn.innerHTML = `
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Log Out</span>
+      `;
+
+      // LOAD CHATS FROM FIREBASE
+      console.log("🔄 Loading chats from Firebase...");
+      const firebaseChats = await loadChatsFromFirestore();
+      
+      window.chatHistory = firebaseChats;
+      window.chatCounter = Object.keys(firebaseChats).length;
+      
+      renderChatHistory();
+      
+      console.log("✅ Loaded", Object.keys(firebaseChats).length, "chats");
+
+      // LOGOUT HANDLER
+      loginBtn.onclick = async () => {
+        console.log("🚪 Logging out...");
+        
+        window.chatHistory = {};
+        window.currentChatId = null;
+        window.chatCounter = 0;
+        
+        document.getElementById("chat-container").innerHTML = "";
+        document.getElementById("chat-history-container").innerHTML = "";
+        
+        const greetBox = document.getElementById("greet-text");
+        const inputContainer = document.querySelector(".input-container");
+        const userInput = document.getElementById("user-input");
+        const greetings = [
+          "What's on your mind today?",
+          "Ready, when you are.",
+          "How can I help you today?"
+        ];
+        
+        greetBox.classList.remove("hide");
+        greetBox.innerText = greetings[Math.floor(Math.random() * greetings.length)];
+        inputContainer.classList.add("start-center");
+        userInput.value = "";
+        userInput.style.height = "24px";
+        
+        await signOut(auth);
+        
+        window.isUserLoggedIn = false;
+        emailBox.textContent = "guest@clive.ai";
+        
+        console.log("✅ Logged out successfully");
+      };
+
+    } else {
+      // GUEST MODE
+      window.isUserLoggedIn = false;
+      emailBox.textContent = "guest@clive.ai";
+
+      // 🎨 RESET AVATAR TO DEFAULT (GUEST)
+      const profileIcon = document.querySelector(".profile-icon");
+      const avatarCircle = document.querySelector(".avatar-circle");
+      
+      if (profileIcon) {
+        profileIcon.textContent = "";
+        profileIcon.style.background = "#666"; // Gray for guest
+        profileIcon.style.color = "";
+      }
+      
+      if (avatarCircle) {
+        avatarCircle.textContent = "";
+        avatarCircle.style.background = "#666";
+        avatarCircle.style.color = "";
+      }
+
+      window.chatHistory = {};
+      window.currentChatId = null;
+      window.chatCounter = 0;
+      document.getElementById("chat-history-container").innerHTML = "";
+
+      loginBtn.innerHTML = `
+        <i class="fa-solid fa-right-to-bracket"></i>
+        <span>Log In</span>
+      `;
+
+      loginBtn.onclick = () => {
+        window.location.href = "/login";
+      };
+      
+      console.log("👤 Guest mode - no chats loaded");
+    }
+  });
+</script>
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+</body>
+</html>
+
+

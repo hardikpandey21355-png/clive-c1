@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clive-V1 Login</title>
+
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+<style>
+    /* Fade in animation for entire page */
+body {
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        height: 100%;
+        font-family: 'Lato', sans-serif;
+    }
+
+    body {
+        display: flex;
+        background: linear-gradient(135deg, #f5e6d3 0%, #e8d4c0 100%);
+        overflow: hidden;
+    }
+
+    /* Left Side - Illustration */
+    .left-side {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 40px;
+    }
+
+    /* Decorative circles */
+    .circle-red {
+        position: absolute;
+        top: -100px;
+        left: -100px;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #e07856, #c45a3f);
+        opacity: 0.8;
+    }
+
+    .circle-purple-small {
+        position: absolute;
+        top: 120px;
+        left: 45%;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #8b5a8e, #6d4570);
+    }
+
+    .circle-purple-large {
+        position: absolute;
+        bottom: 80px;
+        right: 10%;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #8b5a8e, #6d4570);
+    }
+
+    /* Skeleton illustration */
+    .skeleton-container {
+        position: relative;
+        z-index: 10;
+    }
+
+    .skeleton-bg {
+        width: 350px;
+        height: 350px;
+        border-radius: 50%;
+        background: rgba(239, 215, 195, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .skeleton {
+        font-size: 180px;
+        filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    }
+
+    /* Chat bubbles */
+    .chat-bubble {
+        position: absolute;
+        background: #7d3d6b;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 20px;
+        font-size: 24px;
+        letter-spacing: 4px;
+    }
+
+    .chat-left {
+        top: 80px;
+        left: -80px;
+    }
+
+    .chat-right {
+        top: 80px;
+        right: -80px;
+    }
+
+    /* Laptop on skeleton */
+    .laptop {
+        position: absolute;
+        bottom: -30px;
+        width: 160px;
+        height: 120px;
+        background: #d8c8b8;
+        border-radius: 8px;
+        border: 3px solid #666;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+    }
+
+    /* Plants at bottom */
+    .plants {
+        position: absolute;
+        bottom: -20px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .plant {
+        width: 40px;
+        height: 80px;
+        background: linear-gradient(180deg, #d4a574, #c98f65, #7d3d6b);
+        border-radius: 50% 50% 0 0;
+        transform: skewX(-10deg);
+    }
+
+    /* Floating dots */
+    .dots {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dot {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: #7d3d6b;
+        border-radius: 50%;
+    }
+
+    /* Bottom text */
+    .left-bottom-text {
+        position: absolute;
+        bottom: 80px;
+        text-align: center;
+        z-index: 10;
+    }
+
+    .left-bottom-text h2 {
+        font-size: 36px;
+        color: #7d3d6b;
+        margin-bottom: 10px;
+    }
+
+    .left-bottom-text p {
+        font-size: 16px;
+        color: #666;
+    }
+
+    /* Right Side - Login Form */
+    .right-side {
+        width: 500px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px;
+        box-shadow: -5px 0 30px rgba(0,0,0,0.1);
+    }
+
+    .login-box {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .logo {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .logo-icon {
+        font-size: 48px;
+        color: #7d3d6b;
+        margin-bottom: 10px;
+    }
+
+    .login-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+
+    .login-subtitle {
+        font-size: 14px;
+        color: #999;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .google-btn {
+        width: 100%;
+        padding: 14px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 15px;
+        color: #666;
+        cursor: pointer;
+        margin-bottom: 20px;
+        transition: 0.2s;
+    }
+
+    .google-btn:hover {
+        background: #f9f9f9;
+        border-color: #7d3d6b;
+    }
+
+    .divider {
+        text-align: center;
+        margin: 20px 0;
+        color: #999;
+        font-size: 13px;
+        position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 30%;
+        height: 1px;
+        background: #ddd;
+    }
+
+    .divider::before { left: 0; }
+    .divider::after { right: 0; }
+
+    label {
+        display: block;
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+
+    .input-box {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 15px;
+        margin-bottom: 20px;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    .input-box:focus {
+        border-color: #7d3d6b;
+    }
+
+    .input-box::placeholder {
+        color: #ccc;
+    }
+
+    .remember-forgot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        font-size: 13px;
+    }
+
+    .remember-forgot label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0;
+        color: #666;
+        cursor: pointer;
+    }
+
+    .remember-forgot input[type="checkbox"] {
+        accent-color: #7d3d6b;
+    }
+
+    .remember-forgot a {
+        color: #7d3d6b;
+        text-decoration: none;
+    }
+
+    .login-btn {
+        width: 100%;
+        padding: 14px;
+        background: #7d3d6b;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .login-btn:hover {
+        background: #6d3060;
+    }
+
+    .signup-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .signup-link a {
+        color: #7d3d6b;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 28px;
+        color: #999;
+        cursor: pointer;
+        transition: 0.2s;
+        z-index: 1000;
+    }
+
+    .close-btn:hover {
+        color: #ff4b4b;
+    }
+</style>
+
+</head>
+<body>
+
+<!-- Left Side -->
+<div class="left-side">
+    <!-- Decorative elements -->
+    <div class="circle-red"></div>
+    <div class="circle-purple-small"></div>
+    <div class="circle-purple-large"></div>
+    
+    <!-- Floating dots -->
+    <div class="dots">
+        <div class="dot" style="top: 10%; left: 20%;"></div>
+        <div class="dot" style="top: 25%; left: 70%;"></div>
+        <div class="dot" style="top: 60%; left: 15%;"></div>
+        <div class="dot" style="top: 75%; right: 25%;"></div>
+        <div class="dot" style="bottom: 30%; left: 50%;"></div>
+    </div>
+
+    <!-- Skeleton illustration -->
+    <div class="skeleton-container">
+        <div class="chat-bubble chat-left">•••••••</div>
+        <div class="chat-bubble chat-right">•••••••</div>
+        
+        <div class="skeleton-bg">
+            <div class="skeleton">💀</div>
+            <div class="laptop">💀</div>
+            <div class="plants">
+                <div class="plant"></div>
+                <div class="plant" style="height: 70px; margin-top: 10px;"></div>
+                <div class="plant" style="height: 90px; margin-top: -10px;"></div>
+                <div class="plant" style="height: 65px; margin-top: 15px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom text -->
+    <div class="left-bottom-text">
+        <h2>Turn your ideas into reality.</h2>
+        <p>Start for free and get attractive offers from the community</p>
+    </div>
+</div>
+
+<!-- Right Side -->
+<div class="right-side">
+    <div class="close-btn" onclick="goBack()">×</div>
+    
+    <div class="login-box">
+        <div class="logo">
+            <div class="logo-icon">✦</div>
+        </div>
+        
+        <h2 class="login-title">Login to your Account</h2>
+        <p class="login-subtitle">See what is going on with your business</p>
+
+        <!-- Google Login Button -->
+        <button class="google-btn" id="googleLoginBtn">
+            <span style="color: #4285f4; font-size: 20px; font-weight: bold;">G</span>
+            Continue with Google
+        </button>
+
+        <!-- Phone Login Button -->
+       <!-- Phone Login Button - DISABLED -->
+<button id="phone-login-btn" class="google-btn" disabled style="opacity: 0.6; cursor: not-allowed; position: relative;">
+    +91 Continue with Mobile Number
+    <span style="position: absolute; bottom: -18px; left: 0; right: 0; color: #ff4444; font-size: 11px; font-weight: 600;">
+        Currently Unavailable
+    </span>
+</button>
+<!------------------------------------------------------------------------------------------------------- -->
+        <!-- Phone Login Box (Hidden by default) -->
+        <!-- <div id="phone-login-box" style="display:none; margin-top:15px;">
+            <input id="phone-number" class="input-box" placeholder="+91XXXXXXXXXX">
+            <button id="send-otp-btn" class="login-btn">Send OTP</button>
+
+            <div id="otp-section" style="display:none;">
+                <input id="otp-code" class="input-box" placeholder="Enter OTP" style="margin-top:10px;">
+                <button id="verify-otp-btn" class="login-btn">Verify OTP</button>
+            </div>
+        </div> -->
+
+        <!-- Firebase reCAPTCHA container -->
+        <!-- <div id="recaptcha-container"></div> -->
+
+        <!-- WE WILL ALLOW THIS LATER WHEN WE WILL MOBILE NUMBER AUTHENTICATION  -->
+         <!-- ------------------------------------------------------------------------------------------------ -->
+
+        <div class="divider">or Sign in with Email</div>
+
+        <!-- Email/Password Login Form -->
+        <label>Email</label>
+        <input type="email" id="email-input" class="input-box" placeholder="mail@abc.com">
+
+        <label>Password</label>
+        <input type="password" id="password-input" class="input-box" placeholder="••••••••">
+
+        <div class="remember-forgot">
+            <label>
+                <input type="checkbox"> Remember Me
+            </label>
+            <a href="#">Forgot Password?</a>
+        </div>
+
+        <button class="login-btn" id="email-login-btn">Login</button>
+
+        <div class="signup-link">
+            Not Registered Yet? <a href="#">Create an account</a>
+        </div>
+    </div>
+</div>
+
+
+<script>
+function goBack() {
+     window.history.back();
+}
+</script>
+
+
+<!-- FIREBASE AUTHENTICATION SCRIPTS -->
+<script type="module">
+  import { auth } from "/static/firebase.js";
+  import {
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    RecaptchaVerifier,
+    signInWithPhoneNumber
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  console.log("✅ Login module loaded");
+
+  // ==========================================
+  // GOOGLE LOGIN
+  // ==========================================
+  const googleBtn = document.getElementById("googleLoginBtn");
+  const googleProvider = new GoogleAuthProvider();
+
+  googleBtn.addEventListener("click", async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      console.log("✅ Google user:", user.uid, user.email);
+      alert("✅ Logged in with Google");
+
+      window.location.href = "/";
+    } catch (error) {
+      console.error("❌ Google login error:", error);
+      alert("❌ Google login failed: " + error.message);
+    }
+  });
+
+  // ==========================================
+  // EMAIL/PASSWORD LOGIN
+  // ==========================================
+  const emailLoginBtn = document.getElementById("email-login-btn");
+  const emailInput = document.getElementById("email-input");
+  const passwordInput = document.getElementById("password-input");
+
+  emailLoginBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!email || !password) {
+      alert("⚠️ Please enter both email and password");
+      return;
+    }
+
+    try {
+      // Try to login first
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("✅ Email login successful");
+      alert("✅ Logged in successfully!");
+      window.location.href = "/";
+    } catch (error) {
+      // If user doesn't exist, create account
+      if (error.code === "auth/user-not-found" || error.code === "auth/invalid-credential") {
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          console.log("✅ New account created");
+          alert("✅ Account created and logged in!");
+          window.location.href = "/";
+        } catch (createError) {
+          console.error("❌ Account creation error:", createError);
+          alert("❌ " + createError.message);
+        }
+      } else {
+        console.error("❌ Login error:", error);
+        alert("❌ " + error.message);
+      }
+    }
+  });
+
+  // ==========================================
+  // PHONE NUMBER LOGIN WE WILL ALLOW IT IN FUTURE BECAUSE RIGHT NOW IT IS ASKING TO PAY
+  // ==========================================
+
+//   const phoneBtn = document.getElementById("phone-login-btn");
+//   const phoneBox = document.getElementById("phone-login-box");
+//   const sendOtpBtn = document.getElementById("send-otp-btn");
+//   const verifyOtpBtn = document.getElementById("verify-otp-btn");
+//   const otpSection = document.getElementById("otp-section");
+
+//   let confirmationResult;
+//   let recaptchaVerifier;
+
+//   // Show phone input when clicked
+//   phoneBtn.addEventListener("click", () => {
+//     if (phoneBox.style.display === "none") {
+//       phoneBox.style.display = "block";
+      
+//       // Initialize reCAPTCHA only once
+//       if (!recaptchaVerifier) {
+//         try {
+//           recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+//             size: "invisible",
+//             callback: () => {
+//               console.log("✅ reCAPTCHA verified");
+//             }
+//           });
+//         } catch (error) {
+//           console.error("❌ reCAPTCHA error:", error);
+//         }
+//       }
+//     } else {
+//       phoneBox.style.display = "none";
+//     }
+//   });
+
+//   // Send OTP
+//   sendOtpBtn.addEventListener("click", async () => {
+//     const phoneNumber = document.getElementById("phone-number").value.trim();
+
+//     if (!phoneNumber) {
+//       alert("⚠️ Please enter phone number");
+//       return;
+//     }
+
+//     if (!phoneNumber.startsWith("+")) {
+//       alert("⚠️ Phone number must start with country code (e.g., +91)");
+//       return;
+//     }
+
+//     try {
+//       sendOtpBtn.textContent = "Sending...";
+//       sendOtpBtn.disabled = true;
+
+//       confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+      
+//       console.log("✅ OTP sent successfully");
+//       alert("✅ OTP sent to " + phoneNumber);
+      
+//       otpSection.style.display = "block";
+//       sendOtpBtn.textContent = "OTP Sent ✓";
+//     } catch (error) {
+//       console.error("❌ OTP send error:", error);
+//       alert("❌ Failed to send OTP: " + error.message);
+//       sendOtpBtn.textContent = "Send OTP";
+//       sendOtpBtn.disabled = false;
+//     }
+//   });
+
+//   // Verify OTP
+//   verifyOtpBtn.addEventListener("click", async () => {
+//     const code = document.getElementById("otp-code").value.trim();
+
+//     if (!code) {
+//       alert("⚠️ Please enter OTP");
+//       return;
+//     }
+
+//     try {
+//       verifyOtpBtn.textContent = "Verifying...";
+//       verifyOtpBtn.disabled = true;
+
+//       await confirmationResult.confirm(code);
+      
+//       console.log("✅ Phone login successful");
+//       alert("✅ Logged in successfully!");
+//       window.location.href = "/";
+//     } catch (error) {
+//       console.error("❌ OTP verification error:", error);
+//       alert("❌ Invalid OTP. Please try again.");
+//       verifyOtpBtn.textContent = "Verify OTP";
+//       verifyOtpBtn.disabled = false;
+//     }
+//   });
+</script>
+
+</body>
+</html>
