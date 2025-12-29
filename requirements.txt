@@ -3,6 +3,14 @@ gunicorn
 firebase-admin
 requests
 python-dotenv
+
+# AI
 groq
 openai
+
+# File reading
 PyPDF2
+python-docx
+Pillow
+pytesseract
+PyMuPDF
